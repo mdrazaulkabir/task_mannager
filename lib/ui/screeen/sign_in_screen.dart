@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:task_mannager/data/profile.dart';
+import 'package:task_mannager/ui/screeen/pass_word_screen.dart';
+import 'package:task_mannager/ui/screeen/sign_up_screen.dart';
 import 'package:task_mannager/ui/widgets/screen_background.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -97,12 +100,15 @@ class _SignInScreenState extends State<SignInScreen> {
   }
   void _onTapSignInButton(){
     if(_formkey.currentState!.validate()){
-
+     Navigator.push(context, MaterialPageRoute(builder: (context)=>Profile()));
     }
   }
-  void _onTapForgottButoon(){}
-  void _onTapSignUpButton(){
+  void _onTapForgottButoon(){
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>PassWordScreen()));
 
+  }
+  void _onTapSignUpButton(){
+   Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpScreen()));
   }
 
 

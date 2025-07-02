@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:task_mannager/ui/screeen/email_screen.dart';
 import 'package:task_mannager/ui/screeen/sign_in_screen.dart';
 import 'package:task_mannager/ui/screeen/sign_up_screen.dart';
 import 'package:task_mannager/ui/screeen/splash_screen.dart';
@@ -59,7 +60,7 @@ class TaskManagerApp extends StatelessWidget {
         )
       ),
       debugShowCheckedModeBanner: false,
-      home: SignUpScreen(),
+      home: SignInScreen(),
     );
   }
 }
