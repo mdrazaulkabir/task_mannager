@@ -1,4 +1,4 @@
-import 'dart:js';
+//import 'dart:js';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,7 +21,7 @@ class _splashScreenState extends State<splashScreen> {
     moveToNextScreen();
   }
   Future<void>moveToNextScreen()async{
-    await Future.delayed(Duration(seconds: 10));
+    await Future.delayed(Duration(seconds: 3));
     Navigator.pushReplacement(context as BuildContext, MaterialPageRoute(builder: (context)=>SignInScreen()));
   }
 

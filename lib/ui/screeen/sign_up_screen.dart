@@ -14,52 +14,60 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ScreenBackground(
-          child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 40,
-            ),
-            Text(
-              "Join With Us",
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            TextFormField(
-              decoration: InputDecoration(
-                hintText: "Email",
+          child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 120,
               ),
-              textInputAction: TextInputAction.next,
-            ),
-            TextFormField(
-              decoration: InputDecoration(
-                hintText: "First Name",
+              Text(
+                "Join With Us",
+                style: Theme.of(context).textTheme.titleLarge,
               ),
-              textInputAction: TextInputAction.next,
-            ),
-            TextFormField(
-              decoration: InputDecoration(
-                hintText: "Last Name",
+              TextFormField(
+                decoration: const InputDecoration(
+                  hintText: "Email",
+                ),
+                textInputAction: TextInputAction.next,
               ),
-              textInputAction: TextInputAction.next,
-            ),
-            TextFormField(
-              decoration: InputDecoration(
-                hintText: "Mobile ",
+              TextFormField(
+                decoration: const InputDecoration(
+                  hintText: "First Name",
+                ),
+                textInputAction: TextInputAction.next,
               ),
-              textInputAction: TextInputAction.next,
-            ),
-            TextFormField(
-              decoration: InputDecoration(
-                hintText: "Password",
+              TextFormField(
+                decoration: const InputDecoration(
+                  hintText: "Last Name",
+                ),
+                textInputAction: TextInputAction.next,
               ),
-              textInputAction: TextInputAction.next,
-            ),
-            SizedBox(height: 20,),
-            ElevatedButton(onPressed: (){}, child: Icon(Icons.arrow_circle_right_outlined)),
-            SizedBox(height: 20,),
-            DefalutWidgetRichText(),
-          ],
+              TextFormField(
+                decoration: const InputDecoration(
+                  hintText: "Mobile ",
+                ),
+                textInputAction: TextInputAction.next,
+              ),
+              TextFormField(
+                decoration: const InputDecoration(
+                  hintText: "Password",
+                ),
+                textInputAction: TextInputAction.next,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                  onPressed: () {},
+                  child: const Icon(Icons.arrow_circle_right_outlined)),
+              const SizedBox(
+                height: 20,
+              ),
+              const DefalutWidgetRichText(),
+            ],
+          ),
         ),
       )),
     );

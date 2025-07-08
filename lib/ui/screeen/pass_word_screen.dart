@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:task_mannager/ui/screeen/sign_in_screen.dart';
 
 import '../widgets/defalut_widget_rich_text.dart';
 import '../widgets/screen_background.dart';
@@ -17,47 +18,49 @@ class _PassWordScreenState extends State<PassWordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ScreenBackground(child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Form(
-          key: _formkey,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          child: Column(
-            children: [
-              SizedBox(height: 40,),
-              Text("Set Password",style: Theme.of(context).textTheme.titleLarge,),
-              Text("Minimum length password 8 character with latter and number commbination",style: TextStyle(color: CupertinoColors.inactiveGray),),
-              TextFormField(
-                decoration: InputDecoration(
-                  hintText: "Password",
+      body: ScreenBackground(child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Form(
+            key: _formkey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            child: Column(
+              children: [
+                const SizedBox(height: 120,),
+                Text("Set Password",style: Theme.of(context).textTheme.titleLarge,),
+                const Text("Minimum length password 8 character with latter and number commbination",style: TextStyle(color: CupertinoColors.inactiveGray),),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    hintText: "Password",
+                  ),
+                  textInputAction: TextInputAction.next,
+                  controller: _passwordTEController,
+                  validator: (String?value){
+                    if(value?.isEmpty?? true){
+                      return "Enter valid password";
+                    }
+                    return null;
+                  },
                 ),
-                textInputAction: TextInputAction.next,
-                controller: _passwordTEController,
-                validator: (String?value){
-                  if(value?.isEmpty?? true){
-                    return "Enter valid password";
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                  hintText: "Confirm Password",
+                TextFormField(
+                  decoration: const InputDecoration(
+                    hintText: "Confirm Password",
+                  ),
+                  textInputAction: TextInputAction.next,
+                  controller: _confirmPassowordTEController,
+                  validator: (String?value){
+                    if(value?.isEmpty?? true){
+                      return "Enter valid email";
+                    }
+                    return null;
+                  },
                 ),
-                textInputAction: TextInputAction.next,
-                controller: _confirmPassowordTEController,
-                validator: (String?value){
-                  if(value?.isEmpty?? true){
-                    return "Enter valid email";
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 20,),
-              ElevatedButton(onPressed:_onTapPinVerificationButoon, child:Icon(Icons.arrow_circle_right_outlined)),
-              SizedBox(height: 20,),
-              DefalutWidgetRichText(),
-            ],
+                const SizedBox(height: 20,),
+                ElevatedButton(onPressed:_onTapPinVerificationButoon, child:const Icon(Icons.arrow_circle_right_outlined)),
+                const SizedBox(height: 20,),
+                const DefalutWidgetRichText(),
+              ],
+            ),
           ),
         ),
       )),
@@ -65,7 +68,7 @@ class _PassWordScreenState extends State<PassWordScreen> {
   }
   void _onTapPinVerificationButoon(){
     if(_formkey.currentState!.validate()){
-
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>const SignInScreen()));
     }
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:task_mannager/data/profile.dart';
-import 'package:task_mannager/ui/screeen/pass_word_screen.dart';
+import 'package:task_mannager/ui/screeen/email_screen.dart';
 import 'package:task_mannager/ui/screeen/sign_up_screen.dart';
 import 'package:task_mannager/ui/widgets/screen_background.dart';
 
@@ -28,8 +28,8 @@ class _SignInScreenState extends State<SignInScreen> {
             autovalidateMode:AutovalidateMode.onUserInteraction,
             child: Column(
               children: [
-                SizedBox(
-                  height: 40,
+                const SizedBox(
+                  height: 120,
                 ),
                 Text(
                   "Get Started With",
@@ -50,7 +50,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
                 TextFormField(
                   controller: _passwordTEController,
-                  decoration: InputDecoration(hintText: "Password"),
+                  decoration: const InputDecoration(hintText: "Password"),
                   validator: (String? value){
                     if(value?.isEmpty?? 0<=6){
                       return "Enter valid password!";
@@ -58,20 +58,20 @@ class _SignInScreenState extends State<SignInScreen> {
                     return null;
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 ElevatedButton(
                     onPressed: _onTapSignInButton,
-                    child: Icon(
+                    child: const Icon(
                       CupertinoIcons.arrow_right_circle,
                     )),
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
                 TextButton(
                   onPressed: _onTapForgottButoon,
-                  child: Text(
+                  child: const Text(
                     "Forget Password?",
                     style: TextStyle(color: CupertinoColors.inactiveGray),    // vvi  If you want to override here
                   ),
@@ -79,17 +79,19 @@ class _SignInScreenState extends State<SignInScreen> {
                 RichText(
                     text: TextSpan(
                         text: "Don't have account ? ",
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: CupertinoColors.inactiveGray,
                             fontWeight: FontWeight.bold),
                         children: [
                       TextSpan(
                           text: "Signup",
-                          style: TextStyle(color: Colors.greenAccent)),
+                          style: TextStyle(color: Colors.greenAccent),
+                        recognizer: TapGestureRecognizer()..onTap=_onTapSignUpButton,
+
+                      ),
 
 
                     ],
-                      recognizer: TapGestureRecognizer()..onTap=_onTapSignUpButton,
                     )),
               ],
             ),
@@ -100,18 +102,24 @@ class _SignInScreenState extends State<SignInScreen> {
   }
   void _onTapSignInButton(){
     if(_formkey.currentState!.validate()){
-     Navigator.push(context, MaterialPageRoute(builder: (context)=>Profile()));
+     Navigator.push(context, MaterialPageRoute(builder: (context)=>const Profile()));
     }
   }
   void _onTapForgottButoon(){
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>PassWordScreen()));
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>const EmailScreen()));
 
   }
   void _onTapSignUpButton(){
-   Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpScreen()));
+   Navigator.push(context, MaterialPageRoute(builder: (context)=>const SignUpScreen()));
   }
 
-
+@override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _emailTEController.dispose();
+    _passwordTEController.dispose();
+  }
 }
 
 

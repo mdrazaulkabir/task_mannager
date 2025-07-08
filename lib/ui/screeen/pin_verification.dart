@@ -23,11 +23,11 @@ class _PinVerificationState extends State<PinVerification> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             children: [
-              SizedBox(height: 40,),
+              const SizedBox(height: 120,),
               Text("PIN Verification",style: Theme.of(context).textTheme.titleLarge,),
-              Text("A 6 digit verification pin will send to your email address",style: TextStyle(color: CupertinoColors.inactiveGray),),
+              const Text("A 6 digit verification pin will send to your email address",style: TextStyle(color: CupertinoColors.inactiveGray),),
               TextFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: "Email",
                 ),
                 textInputAction: TextInputAction.next,
@@ -38,10 +38,10 @@ class _PinVerificationState extends State<PinVerification> {
                   }
                 },
               ),
-              SizedBox(height: 20,),
-              ElevatedButton(onPressed:_onTapPinVerificationButoon, child:Text("Verify")),
-              SizedBox(height: 20,),
-              DefalutWidgetRichText(),
+              const SizedBox(height: 20,),
+              ElevatedButton(onPressed:_onTapPinVerificationButoon, child:const Text("Verify")),
+              const SizedBox(height: 20,),
+              const DefalutWidgetRichText(),
             ],
           ),
         ),

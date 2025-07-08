@@ -14,8 +14,11 @@ class ScreenBackground extends StatelessWidget {
           //'assets/images/background.svg',
           assetPath.backgroundSvg,
           fit: BoxFit.cover,
+          height: double.maxFinite,
+            width: double.maxFinite,
+
         ),
-       child,
+       SafeArea(child: child),
       ],
     );
   }

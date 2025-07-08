@@ -23,11 +23,11 @@ class _EmailScreenState extends State<EmailScreen> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             children: [
-              SizedBox(height: 40,),
+              const SizedBox(height: 120,),
               Text("Your Email Address",style: Theme.of(context).textTheme.titleLarge,),
-              Text("A 6 digit verification pin will send to your email address",style: TextStyle(color: CupertinoColors.inactiveGray),),
+              const Text("A 6 digit verification pin will send to your email address",style: TextStyle(color: CupertinoColors.inactiveGray),),
               TextFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: "Email",
                 ),
                 textInputAction: TextInputAction.next,
@@ -39,10 +39,10 @@ class _EmailScreenState extends State<EmailScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: 20,),
-              ElevatedButton(onPressed:_onTapPinVerificationButoon, child:Icon(Icons.arrow_circle_right_outlined)),
-              SizedBox(height: 20,),
-              DefalutWidgetRichText(),
+              const SizedBox(height: 20,),
+              ElevatedButton(onPressed:_onTapPinVerificationButoon, child:const Icon(Icons.arrow_circle_right_outlined)),
+              const SizedBox(height: 20,),
+              const DefalutWidgetRichText(),
             ],
           ),
         ),
@@ -51,7 +51,13 @@ class _EmailScreenState extends State<EmailScreen> {
   }
   void _onTapPinVerificationButoon(){
     if(_formkey.currentState!.validate()){
-     Navigator.push(context, MaterialPageRoute(builder: (context)=>PinVerification()));
+     Navigator.push(context, MaterialPageRoute(builder: (context)=>const PinVerification()));
     }
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _emailTEController.dispose();
   }
 }
