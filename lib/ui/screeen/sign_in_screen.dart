@@ -8,7 +8,7 @@ import 'package:task_mannager/ui/widgets/screen_background.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
-
+  static const String name='sign-in-screeen';
   @override
   State<SignInScreen> createState() => _SignInScreenState();
 }
@@ -51,6 +51,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 TextFormField(
                   controller: _passwordTEController,
                   decoration: const InputDecoration(hintText: "Password"),
+                  keyboardType: TextInputType.number,
                   validator: (String? value){
                     if(value?.isEmpty?? 0<=6){
                       return "Enter valid password!";
@@ -102,15 +103,15 @@ class _SignInScreenState extends State<SignInScreen> {
   }
   void _onTapSignInButton(){
     if(_formkey.currentState!.validate()){
-     Navigator.push(context, MaterialPageRoute(builder: (context)=>const Profile()));
+     Navigator.pushReplacementNamed(context, Profile.name);
     }
   }
   void _onTapForgottButoon(){
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>const EmailScreen()));
+    Navigator.pushReplacementNamed(context, EmailScreen.name);
 
   }
   void _onTapSignUpButton(){
-   Navigator.push(context, MaterialPageRoute(builder: (context)=>const SignUpScreen()));
+   Navigator.pushNamed(context, SignUpScreen.name);   //You want the user to be able to go back to the previous screen (e.g., back button in the app bar).
   }
 
 @override

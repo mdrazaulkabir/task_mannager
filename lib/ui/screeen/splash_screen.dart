@@ -9,26 +9,30 @@ import 'package:task_mannager/ui/widgets/screen_background.dart';
 class splashScreen extends StatefulWidget {
   const splashScreen({super.key});
 
+  static const String name = '/';
+
   @override
   State<splashScreen> createState() => _splashScreenState();
 }
 
 class _splashScreenState extends State<splashScreen> {
-
   @override
-  void initState(){
+  void initState() {
     super.initState();
     moveToNextScreen();
   }
-  Future<void>moveToNextScreen()async{
+
+  Future<void> moveToNextScreen() async {
     await Future.delayed(Duration(seconds: 3));
-    Navigator.pushReplacement(context as BuildContext, MaterialPageRoute(builder: (context)=>SignInScreen()));
+    // Navigator.pushReplacementNamed(context, '/Sign-in');   //it's can possible to mistake.That's way we create static variable
+    Navigator.pushReplacementNamed(context, SignInScreen.name); // You don't want the user to go back to the previous screen (e.g., after logging in or logging out).
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ScreenBackground(child: Center(child: SvgPicture.asset(assetPath.logoSvg))),
+      body: ScreenBackground(
+          child: Center(child: SvgPicture.asset(assetPath.logoSvg))),
     );
   }
 }

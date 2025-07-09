@@ -1,5 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:task_mannager/data/profile.dart';
+import 'package:task_mannager/ui/screeen/email_screen.dart';
+import 'package:task_mannager/ui/screeen/pass_word_screen.dart';
+import 'package:task_mannager/ui/screeen/pin_verification.dart';
+import 'package:task_mannager/ui/screeen/sign_in_screen.dart';
+import 'package:task_mannager/ui/screeen/sign_up_screen.dart';
 import 'package:task_mannager/ui/screeen/splash_screen.dart';
 class TaskManagerApp extends StatelessWidget {
   const TaskManagerApp({super.key});
@@ -57,7 +63,19 @@ class TaskManagerApp extends StatelessWidget {
         )
       ),
       debugShowCheckedModeBanner: false,
-      home: splashScreen(),
+      //home: splashScreen(),
+      initialRoute: splashScreen.name,
+      routes: {                                              //first call the class name,, second this static variable,, then route this page
+        //'/': (context)=>const splashScreen(),
+        splashScreen.name:(context)=>const splashScreen(),
+        //'/Sign-in':(context)=>const SignInScreen(),        //can be mistake the '/sign-in' the both place that's way we create one static variable for each class
+        SignInScreen.name:(context)=>const SignInScreen(),
+        SignUpScreen.name:(context)=>const SignUpScreen(),
+        Profile.name:(context)=>const Profile(),
+        EmailScreen.name:(context)=>const EmailScreen(),
+        PinVerification.name:(context)=>const PinVerification(),
+        PassWordScreen.name:(context)=>const PassWordScreen(),
+      },
     );
   }
 }

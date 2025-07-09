@@ -5,7 +5,7 @@ import 'package:task_mannager/ui/widgets/defalut_widget_rich_text.dart';
 import 'package:task_mannager/ui/widgets/screen_background.dart';
 class EmailScreen extends StatefulWidget {
   const EmailScreen({super.key});
-
+static const String name='EmailScreen';
   @override
   State<EmailScreen> createState() => _EmailScreenState();
 }
@@ -33,7 +33,7 @@ class _EmailScreenState extends State<EmailScreen> {
                 textInputAction: TextInputAction.next,
                 controller: _emailTEController,
                 validator: (String?value){
-                  if(value?.isEmpty?? true){
+                  if(value?.trim().isEmpty?? true){
                     return "Enter valid email";
                   }
                   return null;
@@ -51,7 +51,7 @@ class _EmailScreenState extends State<EmailScreen> {
   }
   void _onTapPinVerificationButoon(){
     if(_formkey.currentState!.validate()){
-     Navigator.push(context, MaterialPageRoute(builder: (context)=>const PinVerification()));
+     Navigator.pushNamed(context, PinVerification.name);
     }
   }
   @override

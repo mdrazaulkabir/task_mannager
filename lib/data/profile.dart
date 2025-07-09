@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 class Profile extends StatefulWidget {
   const Profile({super.key});
+  static const String name='SignUpPage';
 
   @override
   State<Profile> createState() => _ProfileState();

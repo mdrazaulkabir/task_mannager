@@ -6,6 +6,7 @@ import '../widgets/defalut_widget_rich_text.dart';
 import '../widgets/screen_background.dart';
 class PassWordScreen extends StatefulWidget {
   const PassWordScreen({super.key});
+  static const String name="passwordScreen";
 
   @override
   State<PassWordScreen> createState() => _PassWordScreenState();
@@ -35,9 +36,9 @@ class _PassWordScreenState extends State<PassWordScreen> {
                   ),
                   textInputAction: TextInputAction.next,
                   controller: _passwordTEController,
-                  validator: (String?value){
-                    if(value?.isEmpty?? true){
-                      return "Enter valid password";
+                  validator: (String? value){
+                    if((value?.length?? 0)<=6){
+                      return "Enter valid password!";
                     }
                     return null;
                   },
@@ -49,14 +50,14 @@ class _PassWordScreenState extends State<PassWordScreen> {
                   textInputAction: TextInputAction.next,
                   controller: _confirmPassowordTEController,
                   validator: (String?value){
-                    if(value?.isEmpty?? true){
-                      return "Enter valid email";
+                    if((value?? '') != _passwordTEController.text){
+                      return "Don't match the password. Try again!";
                     }
                     return null;
                   },
                 ),
                 const SizedBox(height: 20,),
-                ElevatedButton(onPressed:_onTapPinVerificationButoon, child:const Icon(Icons.arrow_circle_right_outlined)),
+                ElevatedButton(onPressed:_onTapPasswordButtoon, child:const Icon(Icons.arrow_circle_right_outlined)),
                 const SizedBox(height: 20,),
                 const DefalutWidgetRichText(),
               ],
@@ -66,9 +67,16 @@ class _PassWordScreenState extends State<PassWordScreen> {
       )),
     );
   }
-  void _onTapPinVerificationButoon(){
+  void _onTapPasswordButtoon(){
     if(_formkey.currentState!.validate()){
       Navigator.push(context, MaterialPageRoute(builder: (context)=>const SignInScreen()));
     }
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _passwordTEController.dispose();
+    _confirmPassowordTEController.dispose();
   }
 }
