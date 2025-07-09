@@ -1,12 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:task_mannager/ui/screeen/botom_main_nav_screen.dart';
+import 'package:task_mannager/ui/navigartorScreen/add_new_task_screen.dart';
+import 'package:task_mannager/ui/navigartorScreen/botom_main_nav_screen.dart';
+import 'package:task_mannager/ui/navigartorScreen/cancled_task_list_screen.dart';
+import 'package:task_mannager/ui/navigartorScreen/complete_task_list_screen.dart';
 import 'package:task_mannager/ui/screeen/email_screen.dart';
+import 'package:task_mannager/ui/navigartorScreen/new_task_list_screen.dart';
 import 'package:task_mannager/ui/screeen/pass_word_screen.dart';
 import 'package:task_mannager/ui/screeen/pin_verification.dart';
+import 'package:task_mannager/ui/navigartorScreen/progress_task_list_screen.dart';
 import 'package:task_mannager/ui/screeen/sign_in_screen.dart';
 import 'package:task_mannager/ui/screeen/sign_up_screen.dart';
 import 'package:task_mannager/ui/screeen/splash_screen.dart';
+import 'package:task_mannager/ui/screeen/update_profile_screen.dart';
 class TaskManagerApp extends StatelessWidget {
   const TaskManagerApp({super.key});
 
@@ -75,6 +81,12 @@ class TaskManagerApp extends StatelessWidget {
         PinVerification.name:(context)=>const PinVerification(),
         PassWordScreen.name:(context)=>const PassWordScreen(),
         BottomMainNavScreen.name:(context)=>const BottomMainNavScreen(),
+        AddNewTaskScreen.name:(context)=>const AddNewTaskScreen(),
+        UpdateProfileScreen.name:(context)=> const UpdateProfileScreen(),
+        NewTaskListScreen.name:(context)=>const NewTaskListScreen(),
+        CompleteTaskListScreen.name:(context)=>const CompleteTaskListScreen(),
+        ProgressTaskListScreen.name:(context)=>const ProgressTaskListScreen(),
+        CancledTaskListScreen.name:(context)=>const CancledTaskListScreen(),
       },
     );
   }

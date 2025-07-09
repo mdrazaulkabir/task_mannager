@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:task_mannager/ui/screeen/cancled_task_list_screen.dart';
-import 'package:task_mannager/ui/screeen/complete_task_list_screen.dart';
-import 'package:task_mannager/ui/screeen/progress_task_list_screen.dart';
+import 'package:task_mannager/ui/navigartorScreen/cancled_task_list_screen.dart';
+import 'package:task_mannager/ui/navigartorScreen/complete_task_list_screen.dart';
+import 'package:task_mannager/ui/navigartorScreen/progress_task_list_screen.dart';
 import 'package:task_mannager/ui/widgets/tm_app_bar.dart';
 
 import 'new_task_list_screen.dart';

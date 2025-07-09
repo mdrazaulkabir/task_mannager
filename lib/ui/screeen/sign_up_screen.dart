@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_mannager/ui/screeen/botom_main_nav_screen.dart';
+import 'package:task_mannager/ui/navigartorScreen/botom_main_nav_screen.dart';
 import 'package:task_mannager/ui/widgets/defalut_widget_rich_text.dart';
 import 'package:task_mannager/ui/widgets/screen_background.dart';
 
