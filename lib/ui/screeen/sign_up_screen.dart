@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_mannager/data/profile.dart';
+import 'package:task_mannager/ui/screeen/botom_main_nav_screen.dart';
 import 'package:task_mannager/ui/widgets/defalut_widget_rich_text.dart';
 import 'package:task_mannager/ui/widgets/screen_background.dart';
 
@@ -128,7 +128,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void _onTapSignUpButton(){
     if(_formkey.currentState!.validate()){
-      Navigator.pushReplacementNamed(context, Profile.name);
+      Navigator.pushReplacementNamed(context, BottomMainNavScreen.name);
     }
   }
 

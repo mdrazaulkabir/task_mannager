@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:task_mannager/data/profile.dart';
+import 'package:task_mannager/ui/screeen/botom_main_nav_screen.dart';
 import 'package:task_mannager/ui/screeen/email_screen.dart';
 import 'package:task_mannager/ui/screeen/sign_up_screen.dart';
 import 'package:task_mannager/ui/widgets/screen_background.dart';
@@ -103,7 +103,8 @@ class _SignInScreenState extends State<SignInScreen> {
   }
   void _onTapSignInButton(){
     if(_formkey.currentState!.validate()){
-     Navigator.pushReplacementNamed(context, Profile.name);
+     Navigator.pushNamedAndRemoveUntil(context, BottomMainNavScreen.name, (route) => false);
+     //Navigator.pushAndRemoveUntil(context, newRoute, (route) => false)
     }
   }
   void _onTapForgottButoon(){

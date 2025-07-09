@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:task_mannager/data/profile.dart';
+import 'package:task_mannager/ui/screeen/botom_main_nav_screen.dart';
 import 'package:task_mannager/ui/screeen/email_screen.dart';
 import 'package:task_mannager/ui/screeen/pass_word_screen.dart';
 import 'package:task_mannager/ui/screeen/pin_verification.dart';
@@ -71,10 +71,10 @@ class TaskManagerApp extends StatelessWidget {
         //'/Sign-in':(context)=>const SignInScreen(),        //can be mistake the '/sign-in' the both place that's way we create one static variable for each class
         SignInScreen.name:(context)=>const SignInScreen(),
         SignUpScreen.name:(context)=>const SignUpScreen(),
-        Profile.name:(context)=>const Profile(),
         EmailScreen.name:(context)=>const EmailScreen(),
         PinVerification.name:(context)=>const PinVerification(),
         PassWordScreen.name:(context)=>const PassWordScreen(),
+        BottomMainNavScreen.name:(context)=>const BottomMainNavScreen(),
       },
     );
   }
