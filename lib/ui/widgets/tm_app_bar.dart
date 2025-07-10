@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_mannager/ui/screeen/sign_in_screen.dart';
+import 'package:task_mannager/ui/navigartorScreen/update_profile_screen.dart';
 
 class TMAppBar extends StatefulWidget implements PreferredSizeWidget {
   const TMAppBar({
@@ -20,21 +21,27 @@ class _TMAppBarState extends State<TMAppBar> {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.greenAccent,
-      title: Row(
-        children: [
-          CircleAvatar(),
-          SizedBox(width: 16,),
-          Column(children: [
-            Text("Md Razaul Kabir",style: Theme.of(context).textTheme.titleMedium,),
-            Text("razaulkabir@gmail.com",style: Theme.of(context).textTheme.titleSmall),
-          ],),
-          Spacer(),
-          IconButton(onPressed: _onTapLogoutButton, icon: Icon(Icons.logout))
-        ],
+      title: GestureDetector(
+        onTap: _onTabAppBarGestureDetector,
+        child: Row(
+          children: [
+            CircleAvatar(),
+            SizedBox(width: 16,),
+            Column(children: [
+              Text("Md Razaul Kabir",style: Theme.of(context).textTheme.titleMedium,),
+              Text("razaulkabir@gmail.com",style: Theme.of(context).textTheme.titleSmall),
+            ],),
+            Spacer(),
+            IconButton(onPressed: _onTapLogoutButton, icon: Icon(Icons.logout))
+          ],
+        ),
       ),
     );
   }
   void _onTapLogoutButton(){
     Navigator.pushNamedAndRemoveUntil(context, SignInScreen.name, (route) => false);
+  }
+  void _onTabAppBarGestureDetector(){
+    Navigator.pushNamed(context, UpdateProfileScreen.name);
   }
 }

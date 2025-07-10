@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_mannager/ui/screeen/update_profile_screen.dart';
-
+import 'package:task_mannager/ui/navigartorScreen/add_new_task_screen.dart';
 import '../widgets/default_task_count_summary_card.dart';
 import '../widgets/task_card.dart';
 
@@ -53,6 +52,6 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
     );
   }
   void _onTapFloatingActionButton(){
-    Navigator.pushNamedAndRemoveUntil(context, UpdateProfileScreen.name, (route) => false);
+    Navigator.pushNamedAndRemoveUntil(context, AddNewTaskScreen.name, (route) => false);
   }
 }

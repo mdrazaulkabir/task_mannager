@@ -12,7 +12,7 @@ import 'package:task_mannager/ui/navigartorScreen/progress_task_list_screen.dart
 import 'package:task_mannager/ui/screeen/sign_in_screen.dart';
 import 'package:task_mannager/ui/screeen/sign_up_screen.dart';
 import 'package:task_mannager/ui/screeen/splash_screen.dart';
-import 'package:task_mannager/ui/screeen/update_profile_screen.dart';
+import 'package:task_mannager/ui/navigartorScreen/update_profile_screen.dart';
 class TaskManagerApp extends StatelessWidget {
   const TaskManagerApp({super.key});
 
