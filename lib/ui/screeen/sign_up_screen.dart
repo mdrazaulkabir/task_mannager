@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:task_mannager/ui/navigartorScreen/botom_main_nav_screen.dart';
+import 'package:task_mannager/data/service/network_caller.dart';
+import 'package:task_mannager/data/urls.dart';
 import 'package:task_mannager/ui/widgets/defalut_widget_rich_text.dart';
 import 'package:task_mannager/ui/widgets/screen_background.dart';
+import 'package:task_mannager/ui/widgets/show_snack_bar_massanger.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -17,8 +19,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _lastNameTEController=TextEditingController();
   final TextEditingController _mobileTEController=TextEditingController();
   final TextEditingController _passwordTEController=TextEditingController();
-
   final GlobalKey<FormState> _formkey=GlobalKey<FormState>();
+  bool _signUpProgress=false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,9 +114,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                ElevatedButton(
-                    onPressed: _onTapSignUpButton,
-                    child: const Icon(Icons.arrow_circle_right_outlined)),
+                Visibility(
+                  visible: _signUpProgress==false,
+                  replacement: Center(child: CircularProgressIndicator()),
+                  child: ElevatedButton(
+                      onPressed: _onTapSignUpButton,
+                      child: const Icon(Icons.arrow_circle_right_outlined)),
+                ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -128,8 +135,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void _onTapSignUpButton(){
     if(_formkey.currentState!.validate()){
-      Navigator.pushReplacementNamed(context, BottomMainNavScreen.name);
+      //Navigator.pushReplacementNamed(context, BottomMainNavScreen.name);
+      _signUp();
     }
+  }
+
+  Future<void>_signUp()async{
+
+    _signUpProgress=true;
+    setState(() { });
+    Map<String ,String>_resquestBody={
+      "email":_emailTEController.text.trim(),
+      "firstName":_firstNameTEController.text.trim(),
+      "lastName":_lastNameTEController.text.trim(),
+      "mobile":_mobileTEController.text.trim(),
+      "password":_passwordTEController.text,
+    };
+    NetworkResponse response=await NetworkCaller().postRequest(url:Urls.baseUrl,body: _resquestBody);
+    _signUpProgress=false;
+    setState(() { });
+
+    if(response.isSuccess){
+      _clearTextField;
+     ShowSnackBarMessage(context, "Successfully signup page. Please login !");
+    }
+    else{
+      ShowSnackBarMessage(context, response.errorMessage!);
+    }
+  }
+
+  void _clearTextField(){
+    _emailTEController.clear();
+    _firstNameTEController.clear();
+    _lastNameTEController.clear();
+    _passwordTEController.clear();
+    _mobileTEController.clear();
   }
 
   @override
