@@ -5,6 +5,8 @@ import 'package:task_mannager/ui/widgets/defalut_widget_rich_text.dart';
 import 'package:task_mannager/ui/widgets/screen_background.dart';
 import 'package:task_mannager/ui/widgets/show_snack_bar_massanger.dart';
 
+import '../widgets/center_circular_Progress_indicator.dart';
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
   static const String name='sign-up';
@@ -116,7 +118,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 Visibility(
                   visible: _signUpProgress==false,
-                  replacement: Center(child: CircularProgressIndicator()),
+                  replacement: const CenterCircularProgressIndicator(),
                   child: ElevatedButton(
                       onPressed: _onTapSignUpButton,
                       child: const Icon(Icons.arrow_circle_right_outlined)),
@@ -151,13 +153,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
       "mobile":_mobileTEController.text.trim(),
       "password":_passwordTEController.text,
     };
-    NetworkResponse response=await NetworkCaller().postRequest(url:Urls.baseUrl,body: _resquestBody);
+    NetworkResponse response=await NetworkCaller().postRequest(url:Urls.registrasionUrl,  body: _resquestBody);
     _signUpProgress=false;
     setState(() { });
 
     if(response.isSuccess){
       _clearTextField;
-     ShowSnackBarMessage(context, "Successfully signup page. Please login !");
+     ShowSnackBarMessage(context, "Successfully signup!");
     }
     else{
       ShowSnackBarMessage(context, response.errorMessage!);

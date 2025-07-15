@@ -1,10 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:task_mannager/data/service/network_caller.dart';
+import 'package:task_mannager/data/urls.dart';
 import 'package:task_mannager/ui/navigartorScreen/botom_main_nav_screen.dart';
 import 'package:task_mannager/ui/screeen/email_screen.dart';
 import 'package:task_mannager/ui/screeen/sign_up_screen.dart';
 import 'package:task_mannager/ui/widgets/screen_background.dart';
+import 'package:task_mannager/ui/widgets/show_snack_bar_massanger.dart';
+
+import '../widgets/center_circular_Progress_indicator.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -17,6 +22,7 @@ class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _emailTEController=TextEditingController();
   final TextEditingController _passwordTEController=TextEditingController();
   final GlobalKey<FormState> _formkey=GlobalKey<FormState>();
+  bool _signinProgress=false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,11 +68,15 @@ class _SignInScreenState extends State<SignInScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                ElevatedButton(
-                    onPressed: _onTapSignInButton,
-                    child: const Icon(
-                      CupertinoIcons.arrow_right_circle,
-                    )),
+                Visibility(
+                  visible: _signinProgress==false,
+                  replacement: const CenterCircularProgressIndicator(),
+                  child: ElevatedButton(
+                      onPressed: _onTapSignInButton,
+                      child: const Icon(
+                        CupertinoIcons.arrow_right_circle,
+                      )),
+                ),
                 const SizedBox(
                   height: 40,
                 ),
@@ -86,7 +96,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         children: [
                       TextSpan(
                           text: "Signup",
-                          style: TextStyle(color: Colors.greenAccent),
+                          style: const TextStyle(color: Colors.greenAccent),
                         recognizer: TapGestureRecognizer()..onTap=_onTapSignUpButton,
 
                       ),
@@ -103,10 +113,33 @@ class _SignInScreenState extends State<SignInScreen> {
   }
   void _onTapSignInButton(){
     if(_formkey.currentState!.validate()){
-     Navigator.pushNamedAndRemoveUntil(context, BottomMainNavScreen.name, (route) => false);
+      _signIn();
      //Navigator.pushAndRemoveUntil(context, newRoute, (route) => false)
     }
   }
+
+  Future<void> _signIn()async{
+    _signinProgress=true;
+    setState(() {
+
+    });
+    Map<String ,String>resquestBody={
+      "email":_emailTEController.text.trim(),
+      "password":_passwordTEController.text,
+    };
+    NetworkResponse response=await NetworkCaller().postRequest(url: Urls.loginUrl,body: resquestBody);
+    if(response.isSuccess){
+      Navigator.pushNamedAndRemoveUntil(context, BottomMainNavScreen.name, (route) => false);
+    }
+    else{
+      _signinProgress==false;
+      setState(() {
+
+      });
+      ShowSnackBarMessage(context, response.errorMessage!);
+    }
+  }
+
   void _onTapForgottButoon(){
     Navigator.pushReplacementNamed(context, EmailScreen.name);
 
