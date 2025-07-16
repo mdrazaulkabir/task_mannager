@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:task_mannager/data/model/user_model.dart';
 import 'package:task_mannager/data/service/network_caller.dart';
 import 'package:task_mannager/data/urls.dart';
 import 'package:task_mannager/ui/navigartorScreen/botom_main_nav_screen.dart';
@@ -129,6 +130,8 @@ class _SignInScreenState extends State<SignInScreen> {
     };
     NetworkResponse response=await NetworkCaller().postRequest(url: Urls.loginUrl,body: resquestBody);
     if(response.isSuccess){
+      UserModel userModel=UserModel.formJson(response.body!['data']);
+      String token=response.body!['token'];
       Navigator.pushNamedAndRemoveUntil(context, BottomMainNavScreen.name, (route) => false);
     }
     else{
