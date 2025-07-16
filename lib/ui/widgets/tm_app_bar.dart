@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_mannager/ui/controller/auth_controller.dart';
 import 'package:task_mannager/ui/screeen/sign_in_screen.dart';
 import 'package:task_mannager/ui/navigartorScreen/update_profile_screen.dart';
 
@@ -28,8 +29,8 @@ class _TMAppBarState extends State<TMAppBar> {
             CircleAvatar(),
             SizedBox(width: 16,),
             Column(children: [
-              Text("Md Razaul Kabir",style: Theme.of(context).textTheme.titleMedium,),
-              Text("razaulkabir@gmail.com",style: Theme.of(context).textTheme.titleSmall),
+              Text(AuthController.userModel!.fullName,style: Theme.of(context).textTheme.titleMedium,),
+              Text(AuthController.userModel!.email,style: Theme.of(context).textTheme.titleSmall),
             ],),
             Spacer(),
             IconButton(onPressed: _onTapLogoutButton, icon: Icon(Icons.logout))
@@ -38,7 +39,8 @@ class _TMAppBarState extends State<TMAppBar> {
       ),
     );
   }
-  void _onTapLogoutButton(){
+  Future<void> _onTapLogoutButton() async {
+    await AuthController.clearData();
     Navigator.pushNamedAndRemoveUntil(context, SignInScreen.name, (route) => false);
   }
   void _onTabAppBarGestureDetector(){

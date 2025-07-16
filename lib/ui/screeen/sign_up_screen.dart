@@ -143,7 +143,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Future<void>_signUp()async{
-
     _signUpProgress=true;
     setState(() { });
     Map<String ,String>_resquestBody={
@@ -158,13 +157,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
     setState(() { });
 
     if(response.isSuccess){
-      _clearTextField;
-     ShowSnackBarMessage(context, "Successfully signup!");
+      _clearTextField();
+     ShowSnackBarMessage(context, "Registration has been sucess. Please login!");
     }
     else{
       ShowSnackBarMessage(context, response.errorMessage!);
     }
   }
+
+
+
 
   void _clearTextField(){
     _emailTEController.clear();

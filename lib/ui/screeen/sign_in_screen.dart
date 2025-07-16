@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:task_mannager/data/model/user_model.dart';
 import 'package:task_mannager/data/service/network_caller.dart';
 import 'package:task_mannager/data/urls.dart';
+import 'package:task_mannager/ui/controller/auth_controller.dart';
 import 'package:task_mannager/ui/navigartorScreen/botom_main_nav_screen.dart';
 import 'package:task_mannager/ui/screeen/email_screen.dart';
 import 'package:task_mannager/ui/screeen/sign_up_screen.dart';
@@ -28,84 +29,84 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ScreenBackground(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Form(
-            key: _formkey ,
-            autovalidateMode:AutovalidateMode.onUserInteraction,
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 120,
-                ),
-                Text(
-                  "Get Started With",
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                TextFormField(
-                  controller: _emailTEController,
-                  decoration: const InputDecoration(
-                    hintText: "Email",
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Form(
+              key: _formkey ,
+              autovalidateMode:AutovalidateMode.onUserInteraction,
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 120,
                   ),
-                  textInputAction: TextInputAction.next,
-                  validator: (String? value){
-                    if(value?.isEmpty?? true){
-                      return "Enter valid email";
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _passwordTEController,
-                  decoration: const InputDecoration(hintText: "Password"),
-                  keyboardType: TextInputType.number,
-                  validator: (String? value){
-                    if(value?.isEmpty?? 0<=6){
-                      return "Enter valid password!";
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Visibility(
-                  visible: _signinProgress==false,
-                  replacement: const CenterCircularProgressIndicator(),
-                  child: ElevatedButton(
-                      onPressed: _onTapSignInButton,
-                      child: const Icon(
-                        CupertinoIcons.arrow_right_circle,
+                  Text(
+                    "Get Started With",
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  TextFormField(
+                    controller: _emailTEController,
+                    decoration: const InputDecoration(
+                      hintText: "Email",
+                    ),
+                    textInputAction: TextInputAction.next,
+                    validator: (String? value){
+                      if(value?.isEmpty?? true){
+                        return "Enter valid email";
+                      }
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                    controller: _passwordTEController,
+                    decoration: const InputDecoration(hintText: "Password"),
+                    keyboardType: TextInputType.number,
+                    validator: (String? value){
+                      if(value?.isEmpty?? 0<=6){
+                        return "Enter valid password!";
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Visibility(
+                    visible: _signinProgress==false,
+                    replacement: CenterCircularProgressIndicator(),
+                    child: ElevatedButton(
+                        onPressed: _onTapSignInButton,
+                        child: const Icon(
+                          CupertinoIcons.arrow_right_circle,
+                        )),
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  TextButton(
+                    onPressed: _onTapForgottButoon,
+                    child: const Text(
+                      "Forget Password?",
+                      style: TextStyle(color: CupertinoColors.inactiveGray),    // vvi  If you want to override here
+                    ),
+                  ),
+                  RichText(
+                      text: TextSpan(
+                          text: "Don't have account ? ",
+                          style: const TextStyle(
+                              color: CupertinoColors.inactiveGray,
+                              fontWeight: FontWeight.bold),
+                          children: [
+                        TextSpan(
+                            text: "Signup",
+                            style: const TextStyle(color: Colors.greenAccent),
+                          recognizer: TapGestureRecognizer()..onTap=_onTapSignUpButton,
+
+                        ),
+                      ],
                       )),
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-                TextButton(
-                  onPressed: _onTapForgottButoon,
-                  child: const Text(
-                    "Forget Password?",
-                    style: TextStyle(color: CupertinoColors.inactiveGray),    // vvi  If you want to override here
-                  ),
-                ),
-                RichText(
-                    text: TextSpan(
-                        text: "Don't have account ? ",
-                        style: const TextStyle(
-                            color: CupertinoColors.inactiveGray,
-                            fontWeight: FontWeight.bold),
-                        children: [
-                      TextSpan(
-                          text: "Signup",
-                          style: const TextStyle(color: Colors.greenAccent),
-                        recognizer: TapGestureRecognizer()..onTap=_onTapSignUpButton,
-
-                      ),
-
-
-                    ],
-                    )),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -118,6 +119,7 @@ class _SignInScreenState extends State<SignInScreen> {
      //Navigator.pushAndRemoveUntil(context, newRoute, (route) => false)
     }
   }
+
 
   Future<void> _signIn()async{
     _signinProgress=true;
@@ -132,16 +134,20 @@ class _SignInScreenState extends State<SignInScreen> {
     if(response.isSuccess){
       UserModel userModel=UserModel.formJson(response.body!['data']);
       String token=response.body!['token'];
+      await AuthController.saveUserData(userModel, token);
       Navigator.pushNamedAndRemoveUntil(context, BottomMainNavScreen.name, (route) => false);
     }
     else{
       _signinProgress==false;
       setState(() {
-
       });
       ShowSnackBarMessage(context, response.errorMessage!);
     }
   }
+
+
+
+
 
   void _onTapForgottButoon(){
     Navigator.pushReplacementNamed(context, EmailScreen.name);

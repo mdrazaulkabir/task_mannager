@@ -4,6 +4,10 @@ class UserModel{
   late String lastName;
   late String firstName;
   late String mobile;
+
+  String get fullName{
+    return '$firstName $lastName';
+  }
   UserModel.formJson(Map<String,dynamic>jsonData){
     id= jsonData['_id'];
     email= jsonData['email'];
