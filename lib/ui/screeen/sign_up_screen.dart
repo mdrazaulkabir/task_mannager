@@ -152,7 +152,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       "mobile":_mobileTEController.text.trim(),
       "password":_passwordTEController.text,
     };
-    NetworkResponse response=await NetworkCaller().postRequest(url:Urls.registrasionUrl,  body: _resquestBody);
+    NetworkResponse response=await NetworkCaller.postRequest(url:Urls.registrasionUrl,  body: _resquestBody);
     _signUpProgress=false;
     setState(() { });
 

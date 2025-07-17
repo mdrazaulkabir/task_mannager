@@ -15,6 +15,7 @@ import 'package:task_mannager/ui/screeen/splash_screen.dart';
 import 'package:task_mannager/ui/navigartorScreen/update_profile_screen.dart';
 class TaskManagerApp extends StatelessWidget {
   const TaskManagerApp({super.key});
+  static GlobalKey<NavigatorState>navigator=GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {

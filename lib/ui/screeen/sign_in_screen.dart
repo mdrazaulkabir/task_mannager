@@ -123,14 +123,16 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Future<void> _signIn()async{
     _signinProgress=true;
-    setState(() {
-
-    });
+    setState(() { });
     Map<String ,String>resquestBody={
       "email":_emailTEController.text.trim(),
       "password":_passwordTEController.text,
     };
-    NetworkResponse response=await NetworkCaller().postRequest(url: Urls.loginUrl,body: resquestBody);
+    NetworkResponse response=await NetworkCaller.postRequest(url: Urls.loginUrl,body: resquestBody);
+    // _signinProgress==false;
+    // setState(() {
+    // });
+
     if(response.isSuccess){
       UserModel userModel=UserModel.formJson(response.body!['data']);
       String token=response.body!['token'];
@@ -139,8 +141,7 @@ class _SignInScreenState extends State<SignInScreen> {
     }
     else{
       _signinProgress==false;
-      setState(() {
-      });
+      setState(() { });
       ShowSnackBarMessage(context, response.errorMessage!);
     }
   }

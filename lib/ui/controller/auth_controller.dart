@@ -4,7 +4,7 @@ import 'package:task_mannager/data/model/user_model.dart';
 class AuthController{
 
   static UserModel? userModel;
-  static String? userToken;
+  static String? accessToken;
 
   static const String _userDataKey="user-data";
   static const String _userTokenKey="token";
@@ -14,12 +14,12 @@ class AuthController{
     await sharedPreferences.setString(_userDataKey, jsonEncode(model.toJson()));
     await sharedPreferences.setString(_userTokenKey,token);
     userModel=model;
-    userToken=token;
+    accessToken=token;
   }
   static Future<void>getUserData()async{
     SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
     userModel=UserModel.formJson(jsonDecode(sharedPreferences.getString('user-data')!));
-    userToken=sharedPreferences.getString('token');
+    accessToken=sharedPreferences.getString('token');
   }
 
   static Future<bool>isUserLogin()async{
@@ -38,5 +38,7 @@ class AuthController{
   static Future<void>clearData()async{
     SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
     await sharedPreferences.clear();
+    userModel=null;
+    accessToken=null;
   }
 }
