@@ -16,7 +16,7 @@ class _CompleteTaskListScreenState extends State<CompleteTaskListScreen> {
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 16),
         child: ListView.builder(itemBuilder: (context,index){
-          return TaskCard(taskType: TaskType.complete);
+          //return TaskCard(taskType: TaskType.complete);
         }),
       ),
     );

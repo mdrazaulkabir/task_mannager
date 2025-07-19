@@ -29,8 +29,12 @@ class NetworkCaller {
    try{
      Uri uri = Uri.parse(url);
 
-     _logRequest(url, null, null);
-     Response response = await get(uri);
+     Map<String,String>? headers={
+       "token": AuthController.accessToken??''
+     };
+
+     _logRequest(url, null, headers);
+     Response response = await get(uri,headers:headers);
      _logResponse(url, response);
 
      if (response.statusCode == 200) {
@@ -54,8 +58,11 @@ class NetworkCaller {
   }
 
 
+
+
+
   //static const String _erroMessage="something went wrong";
- static Future<NetworkResponse> postRequest({required String url, Map<String,String>? body,Map<String,String>? headers}) async {
+ static Future<NetworkResponse> postRequest({required String url, Map<String,String>? body,Map<String,String>? headers,bool isFormlogin=false}) async {
     try{
       Uri uri = Uri.parse(url);
       Map<String,String>? headers={
@@ -77,7 +84,8 @@ class NetworkCaller {
         return NetworkResponse(isSuccess: true, statuscode: response.statusCode, body: decodedJson);
       }
       else if(response.statusCode==401){
-        _onUnauthorize();
+        if(isFormlogin==false){
+        _onUnauthorize();}
         return NetworkResponse(
             isSuccess: false, statuscode: response.statusCode, errorMessage: _onUnauthorizeMessage);
       } else {

@@ -16,7 +16,7 @@ class _ProgressTaskListScreenState extends State<ProgressTaskListScreen> {
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 16),
         child: ListView.builder(itemBuilder: (context,index){
-          return TaskCard(taskType: TaskType.progress);
+          //return TaskCard(taskType: TaskType.progress);
         }),
       ),
 

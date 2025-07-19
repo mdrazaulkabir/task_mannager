@@ -15,7 +15,7 @@ class _CancledTaskListScreenState extends State<CancledTaskListScreen> {
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 16),
         child: ListView.builder(itemBuilder: (context,index){
-          return TaskCard(taskType: TaskType.canceled);
+          //return TaskCard(taskType: TaskType.canceled);
         }),
       ),
     );

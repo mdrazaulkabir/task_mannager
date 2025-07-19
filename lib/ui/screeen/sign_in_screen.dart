@@ -128,7 +128,7 @@ class _SignInScreenState extends State<SignInScreen> {
       "email":_emailTEController.text.trim(),
       "password":_passwordTEController.text,
     };
-    NetworkResponse response=await NetworkCaller.postRequest(url: Urls.loginUrl,body: resquestBody);
+    NetworkResponse response=await NetworkCaller.postRequest(url: Urls.loginUrl,body: resquestBody,isFormlogin: true);
     // _signinProgress==false;
     // setState(() {
     // });
