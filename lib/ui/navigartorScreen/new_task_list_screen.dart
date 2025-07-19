@@ -93,6 +93,8 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
     _getNewtaskInprogress=false;
     setState(() { });
   }
+
+
   void _onTapFloatingActionButton(){
     Navigator.pushNamedAndRemoveUntil(context, AddNewTaskScreen.name, (route) => false);
   }
