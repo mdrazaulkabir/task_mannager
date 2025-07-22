@@ -4,6 +4,7 @@ import 'package:task_mannager/data/urls.dart';
 import 'package:task_mannager/ui/navigartorScreen/add_new_task_screen.dart';
 import 'package:task_mannager/ui/widgets/show_snack_bar_massanger.dart';
 import '../../data/model/task_model.dart';
+import '../../data/model/task_status_count_model.dart';
 import '../widgets/default_task_count_summary_card.dart';
 import '../widgets/task_card.dart';
 
@@ -16,8 +17,12 @@ class NewTaskListScreen extends StatefulWidget {
 }
 
 class _NewTaskListScreenState extends State<NewTaskListScreen> {
-  bool _getNewtaskInprogress=false;
+
+  bool _getNewTaskInprogress=false;
+  bool _getTaskStatusCountInProgress=false;
   List<TaskModel>_newTaskList=[];
+  List<TaskStatusCountModel>_taskStatusCountList=[];
+
   @override
   void initState() {
     // TODO: implement initState
@@ -37,19 +42,19 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 26, vertical: 6),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  return DefaultTaskCountSummaryCard(
+                  return const DefaultTaskCountSummaryCard(
                     title: "cancled",
                     count: 19,
                   );
                 },
-                separatorBuilder: (context, index) => SizedBox(
+                separatorBuilder: (context, index) => const SizedBox(
                       width: 35,
                     ),
                 itemCount: 4),
           ),
           Expanded(
             child: Visibility(
-              visible: _getNewtaskInprogress==false,
+              visible: _getNewTaskInprogress==false,
               replacement: Center(child: CircularProgressIndicator(),),
               child: ListView.builder(
                   itemCount: _newTaskList.length,
@@ -75,7 +80,7 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
 
 
   Future<void>_getNewTaskList()async{
-    _getNewtaskInprogress=true;
+    _getNewTaskInprogress=true;
     setState(() { });
     NetworkResponse response=await NetworkCaller.postRequest(url:Urls.getNewTaskListUrl);
 
@@ -90,8 +95,22 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
       ShowSnackBarMessage(context, response.errorMessage!);
     }
 
-    _getNewtaskInprogress=false;
+    _getNewTaskInprogress=false;
     setState(() { });
+  }
+
+
+
+  Future<void>_getTaskStatusCountList()async{
+    _getTaskStatusCountInProgress=true;
+    setState(() {});
+    NetworkResponse response=await NetworkCaller.getRequest(url: Urls.getTaskStatusCountListUrl);
+    if(response.isSuccess){
+     List<TaskStatusCountModel>list=[];
+     for(Map<String,dynamic>jsonData in response.body!['data']){
+
+     }
+    }
   }
 
 
