@@ -21,13 +21,14 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
   bool _getNewTaskInprogress=false;
   bool _getTaskStatusCountInProgress=false;
   List<TaskModel>_newTaskList=[];
-  List<TaskStatusCountModel>_taskStatusCountList=[];
+  List<TaskStatusCountModel>_newTaskStatusCountList=[];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _getNewTaskList();
+    _getTaskStatusCountList();
   }
 
 
@@ -38,19 +39,22 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
         children: [
           SizedBox(
             height: 110,
-            child: ListView.separated(
-                padding: EdgeInsets.symmetric(horizontal: 26, vertical: 6),
+            child: Visibility(
+              visible: _getTaskStatusCountInProgress==false,
+              replacement: const Center(child: CircularProgressIndicator(),),
+              child: ListView.separated(
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
                 scrollDirection: Axis.horizontal,
+                separatorBuilder: (context, index) => const SizedBox(width: 15),
+                itemCount: _newTaskStatusCountList.length,
                 itemBuilder: (context, index) {
-                  return const DefaultTaskCountSummaryCard(
-                    title: "cancled",
-                    count: 19,
+                  return DefaultTaskCountSummaryCard(
+                    title: _newTaskStatusCountList[index].id,
+                    count: _newTaskStatusCountList[index].count
                   );
                 },
-                separatorBuilder: (context, index) => const SizedBox(
-                      width: 35,
-                    ),
-                itemCount: 4),
+              ),
+            ),
           ),
           Expanded(
             child: Visibility(
@@ -108,9 +112,15 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
     if(response.isSuccess){
      List<TaskStatusCountModel>list=[];
      for(Map<String,dynamic>jsonData in response.body!['data']){
-
+        list.add(TaskStatusCountModel.formJson(jsonData));
      }
+     _newTaskStatusCountList=list;
     }
+    else{
+      ShowSnackBarMessage(context, response.errorMessage!);
+    }
+    _getTaskStatusCountInProgress=false;
+    setState(() {});
   }
 
 
