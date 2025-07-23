@@ -27,8 +27,10 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _getNewTaskList();
-    _getTaskStatusCountList();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _getNewTaskList();
+      _getTaskStatusCountList();
+    });
   }
 
 
@@ -96,11 +98,15 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
       _newTaskList=list;
     }
     else{
-      ShowSnackBarMessage(context, response.errorMessage!);
+      if(mounted){
+        ShowSnackBarMessage(context, response.errorMessage!);
+      }
     }
 
     _getNewTaskInprogress=false;
-    setState(() { });
+    if(mounted){
+      setState(() { });
+    }
   }
 
 
@@ -117,10 +123,14 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
      _newTaskStatusCountList=list;
     }
     else{
-      ShowSnackBarMessage(context, response.errorMessage!);
+      if(mounted){
+        ShowSnackBarMessage(context, response.errorMessage!);
+      }
     }
     _getTaskStatusCountInProgress=false;
-    setState(() {});
+    if(mounted){
+      setState(() { });
+    }
   }
 
 
