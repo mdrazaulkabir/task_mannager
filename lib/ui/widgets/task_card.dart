@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:task_mannager/data/model/task_model.dart';
 
@@ -58,7 +60,9 @@ class TaskCard extends StatelessWidget {
                 const SizedBox(
                   width: 3,
                 ),
-                IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
+                IconButton(onPressed: () {
+                  _showEditTaskStatusDialog();
+                }, icon: Icon(Icons.delete)),
               ],
             )
           ],
@@ -89,4 +93,40 @@ class TaskCard extends StatelessWidget {
       return "Canceled";
     }
   }
+  void _showEditTaskStatusDialog(){
+    showDialog(context: context, builder: (ctx){
+      return AlertDialog(
+        title: Text("change Status"),
+        content: Column(
+          children: [
+            ListTile(
+              title: Text("New"),
+              trailing: _getTaskStatusTrailing(TaskType.tnew),
+
+            ),
+            ListTile(
+              title: Text("In progress"),
+              trailing: _getTaskStatusTrailing(TaskType.progress),
+
+            ),
+            ListTile(
+              title: Text("Complete"),
+              trailing: _getTaskStatusTrailing(TaskType.complete),
+
+            ),
+            ListTile(
+              title: Text("Cancel"),
+              trailing: _getTaskStatusTrailing(TaskType.canceled),
+
+            ),
+          ],
+        ),
+      );
+    });
+  }
+  Widget? _getTaskStatusTrailing(TaskType type){
+    return widget.taskType ==type ? Icon(Icons.check):null;
+  }
+
+
 }
