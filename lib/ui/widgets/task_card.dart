@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:task_mannager/data/model/task_model.dart';
+import 'package:task_mannager/data/service/network_caller.dart';
+import 'package:task_mannager/ui/widgets/center_circular_Progress_indicator.dart';
+import 'package:task_mannager/ui/widgets/show_snack_bar_massanger.dart';
+
+import '../../data/urls.dart';
 
 enum TaskType { tnew, progress, complete, canceled }
 
@@ -18,6 +23,7 @@ class TaskCard extends StatefulWidget {
 }
 
 class _TaskCardState extends State<TaskCard> {
+  bool _updateTaskStatusInprogress=false;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -59,13 +65,19 @@ class _TaskCardState extends State<TaskCard> {
                       borderRadius: BorderRadius.circular(15)),
                 ),
                 Spacer(),
-                IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+                Visibility(
+                  visible: _updateTaskStatusInprogress==false,
+                  replacement: CenterCircularProgressIndicator(),
+                  child: IconButton(
+                      onPressed: () {
+                        _showEditTaskStatusDialog();
+                      },
+                      icon: Icon(Icons.edit)),
+                ),
                 const SizedBox(
                   width: 3,
-                ),
-                IconButton(onPressed: () {
-                  _showEditTaskStatusDialog();
-                }, icon: Icon(Icons.delete)),
+                ), IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
+
               ],
             )
           ],
@@ -111,23 +123,38 @@ class _TaskCardState extends State<TaskCard> {
                 if(widget.taskType==TaskType.tnew){
                   return;
                 }
+                _updateTaskStatus('New');
               },
-
             ),
             ListTile(
               title: Text("In progress"),
               trailing: _getTaskStatusTrailing(TaskType.progress),
-
+              onTap: (){
+                if(widget.taskType==TaskType.progress){
+                  return;
+                }
+                _updateTaskStatus('Progress');
+              },
             ),
             ListTile(
               title: Text("Complete"),
               trailing: _getTaskStatusTrailing(TaskType.complete),
-
+              onTap: (){
+                if(widget.taskType==TaskType.complete){
+                  return;
+                }
+                _updateTaskStatus('Complete');
+              },
             ),
             ListTile(
               title: Text("Cancel"),
               trailing: _getTaskStatusTrailing(TaskType.canceled),
-
+              onTap: (){
+                if(widget.taskType==TaskType.canceled){
+                  return;
+                }
+                _updateTaskStatus('Canceled');
+              },
             ),
           ],
         ),
@@ -135,8 +162,30 @@ class _TaskCardState extends State<TaskCard> {
     });
   }
 
+
   Widget? _getTaskStatusTrailing(TaskType type){
     return widget.taskType ==type ? Icon(Icons.check):null;
+  }
+
+
+  Future<void>_updateTaskStatus(String status)async{
+    _updateTaskStatusInprogress=true;
+    if(mounted){
+      setState(() { });
+    }
+    NetworkResponse response= await NetworkCaller.getRequest(url: Urls.updateTaskStatusUrl(widget.taskModel.id, status));
+    _updateTaskStatusInprogress=false;
+    if(mounted){
+      setState(() {});
+    }
+    if(response.isSuccess){
+
+    }
+    else{
+      if(mounted){
+        ShowSnackBarMessage(context, response.errorMessage!);
+      }
+    }
   }
 
 }
