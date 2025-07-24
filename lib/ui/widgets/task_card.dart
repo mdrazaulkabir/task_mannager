@@ -1,11 +1,9 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:task_mannager/data/model/task_model.dart';
 
 enum TaskType { tnew, progress, complete, canceled }
 
-class TaskCard extends StatelessWidget {
+class TaskCard extends StatefulWidget {
   const TaskCard({
     super.key,
     required this.taskType,
@@ -15,6 +13,11 @@ class TaskCard extends StatelessWidget {
   final TaskType taskType;
   final TaskModel taskModel;
 
+  @override
+  State<TaskCard> createState() => _TaskCardState();
+}
+
+class _TaskCardState extends State<TaskCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -26,18 +29,18 @@ class TaskCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Title${taskModel.title}",
+              "Title${widget.taskModel.title}",
               style: Theme.of(context).textTheme.titleMedium,
             ),
             Text(
-              "Description${taskModel.description}",
+              "Description${widget.taskModel.description}",
               style: TextStyle(color: Colors.grey),
             ),
             const SizedBox(
               height: 5,
             ),
             Text(
-              "Date${taskModel.createDate}",
+              "Date${widget.taskModel.createDate}",
               style: Theme.of(context).textTheme.titleSmall,
             ),
             const SizedBox(
@@ -72,27 +75,29 @@ class TaskCard extends StatelessWidget {
   }
 
   Color _getTaskChipColor() {
-    if (taskType == TaskType.tnew) {
+    if (widget.taskType == TaskType.tnew) {
       return Colors.blue;
-    } else if (taskType == TaskType.progress) {
+    } else if (widget.taskType == TaskType.progress) {
       return Colors.green;
-    } else if (taskType == TaskType.complete) {
+    } else if (widget.taskType == TaskType.complete) {
       return Colors.yellowAccent;
     } else {
       return Colors.red;
     }
   }
+
   String _getTypeTaskName(){
-    if (taskType == TaskType.tnew) {
+    if (widget.taskType == TaskType.tnew) {
       return "New";
-    } else if (taskType == TaskType.progress) {
+    } else if (widget.taskType == TaskType.progress) {
       return "Progress";
-    } else if (taskType == TaskType.complete) {
+    } else if (widget.taskType == TaskType.complete) {
       return "Completed";
     } else {
       return "Canceled";
     }
   }
+
   void _showEditTaskStatusDialog(){
     showDialog(context: context, builder: (ctx){
       return AlertDialog(
@@ -102,6 +107,11 @@ class TaskCard extends StatelessWidget {
             ListTile(
               title: Text("New"),
               trailing: _getTaskStatusTrailing(TaskType.tnew),
+              onTap: (){
+                if(widget.taskType==TaskType.tnew){
+                  return;
+                }
+              },
 
             ),
             ListTile(
@@ -124,9 +134,9 @@ class TaskCard extends StatelessWidget {
       );
     });
   }
+
   Widget? _getTaskStatusTrailing(TaskType type){
     return widget.taskType ==type ? Icon(Icons.check):null;
   }
-
 
 }
