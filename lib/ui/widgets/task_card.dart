@@ -13,10 +13,12 @@ class TaskCard extends StatefulWidget {
     super.key,
     required this.taskType,
     required this.taskModel,
+    required this.onStatusUpdate,
   });
 
   final TaskType taskType;
   final TaskModel taskModel;
+  final VoidCallback onStatusUpdate;
 
   @override
   State<TaskCard> createState() => _TaskCardState();
@@ -120,40 +122,28 @@ class _TaskCardState extends State<TaskCard> {
               title: Text("New"),
               trailing: _getTaskStatusTrailing(TaskType.tnew),
               onTap: (){
-                if(widget.taskType==TaskType.tnew){
-                  return;
-                }
-                _updateTaskStatus('New');
+                onTapTaskStatus(TaskType.tnew,'New');
               },
             ),
             ListTile(
               title: Text("In progress"),
               trailing: _getTaskStatusTrailing(TaskType.progress),
               onTap: (){
-                if(widget.taskType==TaskType.progress){
-                  return;
-                }
-                _updateTaskStatus('Progress');
+                onTapTaskStatus(TaskType.progress,'Progress');
               },
             ),
             ListTile(
               title: Text("Complete"),
               trailing: _getTaskStatusTrailing(TaskType.complete),
               onTap: (){
-                if(widget.taskType==TaskType.complete){
-                  return;
-                }
-                _updateTaskStatus('Complete');
+                onTapTaskStatus(TaskType.complete,'Complete');
               },
             ),
             ListTile(
               title: Text("Cancel"),
               trailing: _getTaskStatusTrailing(TaskType.canceled),
               onTap: (){
-                if(widget.taskType==TaskType.canceled){
-                  return;
-                }
-                _updateTaskStatus('Canceled');
+                onTapTaskStatus(TaskType.canceled,'Canceled');
               },
             ),
           ],
@@ -165,6 +155,13 @@ class _TaskCardState extends State<TaskCard> {
 
   Widget? _getTaskStatusTrailing(TaskType type){
     return widget.taskType ==type ? Icon(Icons.check):null;
+  }
+
+  void onTapTaskStatus(TaskType type,String statusText){
+    if(widget.taskType==type){
+      return;
+    }
+    _updateTaskStatus(statusText);
   }
 
 
@@ -179,7 +176,7 @@ class _TaskCardState extends State<TaskCard> {
       setState(() {});
     }
     if(response.isSuccess){
-
+      widget.onStatusUpdate();
     }
     else{
       if(mounted){

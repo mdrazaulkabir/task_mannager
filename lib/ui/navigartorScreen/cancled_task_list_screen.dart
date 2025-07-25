@@ -31,7 +31,7 @@ class _CancledTaskListScreenState extends State<CancledTaskListScreen> {
           visible: _getCancelTaskInProgress==false,
           replacement: Center(child: CircularProgressIndicator(),),
           child: ListView.builder(itemBuilder: (context,index){
-            return TaskCard(taskType: TaskType.canceled, taskModel: _cancelTaskList[index],);
+            return TaskCard(taskType: TaskType.canceled, taskModel: _cancelTaskList[index], onStatusUpdate: () {  },);
           }),
         ),
       ),
