@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:task_mannager/data/service/network_caller.dart';
 import 'package:task_mannager/data/urls.dart';
 import 'package:task_mannager/ui/navigartorScreen/add_new_task_screen.dart';
+import 'package:task_mannager/ui/widgets/center_circular_Progress_indicator.dart';
 import 'package:task_mannager/ui/widgets/show_snack_bar_massanger.dart';
 import '../../data/model/task_model.dart';
 import '../../data/model/task_status_count_model.dart';
@@ -43,7 +44,7 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
             height: 110,
             child: Visibility(
               visible: _getTaskStatusCountInProgress==false,
-              replacement: const Center(child: CircularProgressIndicator(),),
+              replacement: const CenterCircularProgressIndicator(),
               child: ListView.separated(
                 padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
                 scrollDirection: Axis.horizontal,
@@ -61,7 +62,7 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
           Expanded(
             child: Visibility(
               visible: _getNewTaskInprogress==false,
-              replacement: Center(child: CircularProgressIndicator(),),
+              replacement: const CenterCircularProgressIndicator(),
               child: ListView.builder(
                   itemCount: _newTaskList.length,
                   itemBuilder: (context, index) {
@@ -69,7 +70,8 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
                       taskType: TaskType.tnew,
                       taskModel: _newTaskList[index],
                       onStatusUpdate: () {
-
+                        _getNewTaskList();
+                        _getTaskStatusCountList();
                       },
                     );
                   }),
@@ -96,9 +98,15 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
     if(response.isSuccess){
       List<TaskModel>list=[];
       for(Map<String,dynamic> jsonData in response.body!['data']){
-        list.add(TaskModel.formJson(jsonData));
+        try{
+          list.add(TaskModel.formJson(jsonData));
+        }catch(e){
+          print("Error parsing model:$e");
+        }
       }
       _newTaskList=list;
+      print("Check api #############################: ${_newTaskList.length} ");
+      print("Check api #############################:${response.body}");
     }
     else{
       if(mounted){

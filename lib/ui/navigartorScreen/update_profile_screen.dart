@@ -1,5 +1,13 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:task_mannager/data/service/network_caller.dart';
+import 'package:task_mannager/data/urls.dart';
+import 'package:task_mannager/ui/controller/auth_controller.dart';
+import 'package:task_mannager/ui/widgets/center_circular_Progress_indicator.dart';
+import 'package:task_mannager/ui/widgets/show_snack_bar_massanger.dart';
 import 'package:task_mannager/ui/widgets/tm_app_bar.dart';
 
 import '../widgets/screen_background.dart';
@@ -19,10 +27,21 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   final TextEditingController _lastNameTEController = TextEditingController();
   final TextEditingController _mobileTEController = TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+
   final ImagePicker _imagePicker=ImagePicker();
   XFile? _selectedImage;
+  bool updateProfileInProgress=false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _emailTEController.text=AuthController.userModel?.email?? "";
+    _firstNameTEController.text=AuthController.userModel?.firstName?? "";
+    _lastNameTEController.text=AuthController.userModel?.lastName?? "";
+    _mobileTEController.text=AuthController.userModel?.email?? "";
+  }
 
-  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +90,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                           child: Text("Photo",style: Theme.of(context).textTheme.titleMedium,),
                         ),
                         const SizedBox(width: 5,),
-                         Text(_selectedImage==null? "Select image":_selectedImage!.name),
+                        Text(
+                          _selectedImage == null ? "Select image" : _selectedImage!.name,
+                          maxLines: 1,
+                          style: const TextStyle(overflow: TextOverflow.ellipsis),
+                        ),
                       ],
                     ),
                   ),
@@ -84,15 +107,16 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     hintText: "Email",
                   ),
                   textInputAction: TextInputAction.next,
-                  controller: _emailTEController,
-                  validator: (String? value) {
-                    //if(value?.trim().isEmpty?? true){}
-                    //if(value!.length<=6){}
-                    if (value?.isEmpty ?? true) {
-                      return "Enter valid email";
-                    }
-                    return null;
-                  },
+                  enabled: false,
+                  // controller: _emailTEController,
+                  // validator: (String? value) {
+                  //   //if(value?.trim().isEmpty?? true){}
+                  //   //if(value!.length<=6){}
+                  //   if (value?.isEmpty ?? true) {
+                  //     return "Enter valid email";
+                  //   }
+                  //   return null;
+                  // },
                 ),
                 TextFormField(
                   decoration: const InputDecoration(
@@ -142,7 +166,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   keyboardType: TextInputType.number,
                   controller: _passwordTEController,
                   validator: (String? value) {
-                    if (value!.length <= 6) {
+                    int length=value?.length??0;
+                    if (length>0 && length <= 6) {
                       return "Enter valid password!";
                     }
                     return null;
@@ -151,9 +176,13 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                ElevatedButton(
-                    onPressed: _onTapUpdateButton,
-                    child: const Icon(Icons.arrow_circle_right_outlined)),
+                Visibility(
+                  visible: updateProfileInProgress==false,
+                  replacement: CenterCircularProgressIndicator(),
+                  child: ElevatedButton(
+                      onPressed: _onTapUpdateButton,
+                      child: const Icon(Icons.arrow_circle_right_outlined)),
+                ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -167,13 +196,49 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
   void _onTapUpdateButton() {
     if (_formkey.currentState!.validate()) {
-      // Navigator.pushReplacementNamed(context, BottomMainNavScreen.name);
+      _updateProfile();
+    }
+  }
+
+  Future<void>_updateProfile()async{
+    updateProfileInProgress=true;
+    if(mounted){
+      setState(() {});
+    }
+    Map<String,String>requestBody={
+      "email":_emailTEController.text,
+      "firstName":_firstNameTEController.text.trim(),
+      "lastName":_lastNameTEController.text.trim(),
+      "mobile":_mobileTEController.text.trim(),
+    };
+    if(_passwordTEController.text.isNotEmpty){
+      requestBody['password']=_passwordTEController.text;
+    }
+    if(_selectedImage!=null){
+      Uint8List imageByte=await _selectedImage!.readAsBytes();
+      requestBody['photo']=base64Encode(imageByte);
+    }
+    NetworkResponse response=await NetworkCaller.postRequest(url: Urls.updateProfileUrl,body: requestBody);
+
+    updateProfileInProgress=false;
+    if(mounted){
+      setState(() {});
+    }
+    if(response.isSuccess){
+      _passwordTEController.clear();
+      if(mounted){
+        ShowSnackBarMessage(context, "Successfully update profile!");
+      }
+    }
+    else{
+      if(mounted){
+        ShowSnackBarMessage(context, response.errorMessage!);
+      }
     }
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _emailTEController.dispose();
     _firstNameTEController.dispose();
@@ -182,13 +247,14 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     _passwordTEController.dispose();
   }
 
-    Future<void> _onTapImagePicker()async {
-    final XFile? NowimagePicked=await _imagePicker.pickImage(source:ImageSource.camera);
-    if(NowimagePicked!=null){
-      _selectedImage=NowimagePicked;
-      setState(() {
-
-      });
-     }
+  Future<void> _onTapImagePicker() async {
+    final XFile? NowimagePicked =
+        await _imagePicker.pickImage(source: ImageSource.camera);
+    if (NowimagePicked != null) {
+      _selectedImage = NowimagePicked;
+      setState(() {});
     }
+  }
+
+
 }

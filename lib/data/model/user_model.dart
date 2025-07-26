@@ -25,5 +25,4 @@ class UserModel{
       'mobile':mobile
     };
   }
-
 }

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:task_mannager/data/service/network_caller.dart';
 import 'package:task_mannager/data/urls.dart';
+import 'package:task_mannager/ui/widgets/center_circular_Progress_indicator.dart';
 import 'package:task_mannager/ui/widgets/show_snack_bar_massanger.dart';
 import 'package:task_mannager/ui/widgets/tm_app_bar.dart';
 
@@ -78,7 +79,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                 ),
                 Visibility(
                     visible: _addTaskProgress==false,
-                    replacement: Center(child: CircularProgressIndicator()),
+                    replacement: const CenterCircularProgressIndicator( ),
                     child: ElevatedButton(
                         onPressed: _onTapNewTask,
                         child: const Icon(Icons.arrow_circle_right_outlined))),
@@ -110,6 +111,8 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
         "status":"New"
       };
     NetworkResponse response=await NetworkCaller.postRequest(url:Urls.createNewTaskUrl ,body: requestBody);
+    _addTaskProgress = false;
+    setState(() {});
     if(response.isSuccess){
       _subjectTEController.clear();
       _descriptionTEController.clear();

@@ -21,7 +21,7 @@ class NetworkResponse {
 
 
 class NetworkCaller {
-  static const String _erroMessage="something went wrong";
+  static const String _errorMessage="something went wrong";
   static const String _onUnauthorizeMessage="something went wrong authorize ";
 
 
@@ -47,7 +47,7 @@ class NetworkCaller {
      } else {
        final decodedJson=jsonDecode(response.body);
        return NetworkResponse(
-           isSuccess: false, statuscode: response.statusCode, errorMessage: decodedJson['data']?? _erroMessage);
+           isSuccess: false, statuscode: response.statusCode, errorMessage: decodedJson['data']?? _errorMessage);
 
      }
    }
@@ -83,18 +83,18 @@ class NetworkCaller {
         final decodedJson = jsonDecode(response.body);
         return NetworkResponse(isSuccess: true, statuscode: response.statusCode, body: decodedJson);
       }
-      else if(response.statusCode==401){
-        if(isFormlogin==false){
-        _onUnauthorize();}
-        return NetworkResponse(
-            isSuccess: false, statuscode: response.statusCode, errorMessage: _onUnauthorizeMessage);
+      else if (response.statusCode == 401) {
+        if (isFormlogin == false) {
+          _onUnauthorize();
+        }
+        return NetworkResponse(isSuccess: false, statuscode: response.statusCode, errorMessage: _onUnauthorizeMessage);
       } else {
-        final decodedJson=jsonDecode(response.body);
+        final decodedJson = jsonDecode(response.body);
         return NetworkResponse(
-            isSuccess: false, statuscode: response.statusCode, errorMessage: decodedJson['data']?? _erroMessage);
+            isSuccess: false,
+            statuscode: response.statusCode,
+            errorMessage: decodedJson['data'] ?? _errorMessage);
       }
-
-
     }
     catch(e){
       return NetworkResponse(
