@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:task_mannager/ui/controller/auth_controller.dart';
 import 'package:task_mannager/ui/screeen/sign_in_screen.dart';
@@ -26,7 +28,10 @@ class _TMAppBarState extends State<TMAppBar> {
         onTap: _onTabAppBarGestureDetector,
         child: Row(
           children: [
-            CircleAvatar(),
+            CircleAvatar(
+              backgroundImage: AuthController.userModel?.photo == null ? null :
+              MemoryImage(base64Decode(AuthController.userModel!.photo!)),
+            ),
             SizedBox(width: 16,),
             Column(children: [
               Text(AuthController.userModel!.fullName,style: Theme.of(context).textTheme.titleMedium,),

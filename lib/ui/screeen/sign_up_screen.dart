@@ -145,14 +145,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Future<void>_signUp()async{
     _signUpProgress=true;
     setState(() { });
-    Map<String ,String>_resquestBody={
+    Map<String ,String>resquestBody={
       "email":_emailTEController.text.trim(),
       "firstName":_firstNameTEController.text.trim(),
       "lastName":_lastNameTEController.text.trim(),
       "mobile":_mobileTEController.text.trim(),
       "password":_passwordTEController.text,
     };
-    NetworkResponse response=await NetworkCaller.postRequest(url:Urls.registrationUrl,  body: _resquestBody);
+    NetworkResponse response=await NetworkCaller.postRequest(url:Urls.registrationUrl,  body: resquestBody);
     _signUpProgress=false;
     setState(() { });
 

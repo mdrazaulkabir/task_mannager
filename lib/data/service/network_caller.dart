@@ -62,8 +62,9 @@ class NetworkCaller {
 
 
   //static const String _erroMessage="something went wrong";
- static Future<NetworkResponse> postRequest({required String url, Map<String,String>? body,Map<String,String>? headers,bool isFormlogin=false}) async {
+ static Future<NetworkResponse> postRequest({required String url, Map<String,String>?body, Map<String,String>?headers, bool isFormLogin=false}) async {
     try{
+
       Uri uri = Uri.parse(url);
       Map<String,String>? headers={
       "content-type":"application/json",
@@ -84,11 +85,12 @@ class NetworkCaller {
         return NetworkResponse(isSuccess: true, statuscode: response.statusCode, body: decodedJson);
       }
       else if (response.statusCode == 401) {
-        if (isFormlogin == false) {
+        if (isFormLogin == false) {
           _onUnauthorize();
         }
         return NetworkResponse(isSuccess: false, statuscode: response.statusCode, errorMessage: _onUnauthorizeMessage);
-      } else {
+      }
+      else {
         final decodedJson = jsonDecode(response.body);
         return NetworkResponse(
             isSuccess: false,
@@ -109,20 +111,20 @@ class NetworkCaller {
  static void _logRequest(String url, Map<String , String>? body,Map<String,String>? headers){
     debugPrint(
       '"""""""""""Request""""""""""""\n'
-          'url: $url\n'
-          'Headers:$headers\n'
-          'body: $body\n'
-          '"""""""""""""""""""""""""\n'
+          'url: """"""$url\n'
+          'Headers:"""$headers\n'
+          'body: """""$body\n'
+          '""""""""""""""""""""""""""""""""\n'
     );
   }
 
   static void _logResponse(String url, Response response){
     debugPrint(
-        '"""""""""""Response""""""""""""\n'
-            'url: $url\n'
-            'Statuscode:${response.statusCode}\n'
-            'body: ${response.body}\n'
-            '""""""""""""""""""""""""""""\n'
+        '""""""""""""""""""""""""Response"""""""""""""""""""\n'
+            'url:"""""""""""""""$url\n'
+            'Statuscode:""""""""${response.statusCode}\n'
+            'body: """""""""""""${response.body}\n'
+            '"""""""""""""""""""""""""""""""""""""""""""""""""""\n'
     );
   }
 
