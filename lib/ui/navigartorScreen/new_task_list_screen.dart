@@ -19,7 +19,7 @@ class NewTaskListScreen extends StatefulWidget {
 
 class _NewTaskListScreenState extends State<NewTaskListScreen> {
 
-  bool _getNewTaskInprogress=false;
+  bool _getNewTaskInProgress=false;
   bool _getTaskStatusCountInProgress=false;
   List<TaskModel>_newTaskList=[];
   List<TaskStatusCountModel>_newTaskStatusCountList=[];
@@ -61,7 +61,7 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
           ),
           Expanded(
             child: Visibility(
-              visible: _getNewTaskInprogress==false,
+              visible: _getNewTaskInProgress==false,
               replacement: const CenterCircularProgressIndicator(),
               child: ListView.builder(
                   itemCount: _newTaskList.length,
@@ -91,7 +91,7 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
 
 
   Future<void>_getNewTaskList()async{
-    _getNewTaskInprogress=true;
+    _getNewTaskInProgress=true;
     setState(() { });
     NetworkResponse response=await NetworkCaller.postRequest(url:Urls.getNewTaskListUrl);
 
@@ -114,7 +114,7 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
       }
     }
 
-    _getNewTaskInprogress=false;
+    _getNewTaskInProgress=false;
     if(mounted){
       setState(() { });
     }
@@ -146,6 +146,7 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
 
 
   void _onTapFloatingActionButton(){
-    Navigator.pushNamedAndRemoveUntil(context, AddNewTaskScreen.name, (route) => false);
+    // Navigator.pushNamedAndRemoveUntil(context, AddNewTaskScreen.name, (route) => false);  //all remove then got to this screen that's way will be no came back the previous screen
+    Navigator.pushNamed(context, AddNewTaskScreen.name);
   }
 }

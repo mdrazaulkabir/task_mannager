@@ -129,8 +129,8 @@ class _SignInScreenState extends State<SignInScreen> {
       "password":_passwordTEController.text,
     };
     NetworkResponse response=await NetworkCaller.postRequest(url: Urls.loginUrl,body: resquestBody,isFormLogin: true);
-    _signinProgress=false;
-    setState(() { });
+    // _signinProgress=false;
+    // setState(() { });
 
     if(response.isSuccess){
       UserModel userModel=UserModel.formJson(response.body!['data']);

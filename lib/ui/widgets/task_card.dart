@@ -25,7 +25,7 @@ class TaskCard extends StatefulWidget {
 }
 
 class _TaskCardState extends State<TaskCard> {
-  bool _updateTaskStatusInprogress=false;
+  bool _updateTaskStatusInProgress=false;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -68,7 +68,7 @@ class _TaskCardState extends State<TaskCard> {
                 ),
                 Spacer(),
                 Visibility(
-                  visible: _updateTaskStatusInprogress==false,
+                  visible: _updateTaskStatusInProgress==false,
                   replacement: CenterCircularProgressIndicator(),
                   child: IconButton(
                       onPressed: () {
@@ -166,12 +166,12 @@ class _TaskCardState extends State<TaskCard> {
 
 
   Future<void>_updateTaskStatus(String status)async{
-    _updateTaskStatusInprogress=true;
+    _updateTaskStatusInProgress=true;
     if(mounted){
       setState(() { });
     }
     NetworkResponse response= await NetworkCaller.getRequest(url: Urls.updateTaskStatusUrl(widget.taskModel.id, status));
-    _updateTaskStatusInprogress=false;
+    _updateTaskStatusInProgress=false;
     if(mounted){
       setState(() {});
     }

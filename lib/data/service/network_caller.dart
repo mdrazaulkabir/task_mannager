@@ -22,14 +22,14 @@ class NetworkResponse {
 
 class NetworkCaller {
   static const String _errorMessage="something went wrong";
-  static const String _onUnauthorizeMessage="something went wrong authorize ";
+  static const String _unAuthorizeMessage="something went wrong authorize ";
 
 
   static Future<NetworkResponse> getRequest({required String url}) async {
    try{
      Uri uri = Uri.parse(url);
 
-     Map<String,String>? headers={
+     final Map<String,String> headers={
        "token": AuthController.accessToken??''
      };
 
@@ -43,7 +43,7 @@ class NetworkCaller {
      } else if(response.statusCode==401){
        _onUnauthorize();
        return NetworkResponse(
-           isSuccess: false, statuscode: response.statusCode, errorMessage: _onUnauthorizeMessage);
+           isSuccess: false, statuscode: response.statusCode, errorMessage: _unAuthorizeMessage);
      } else {
        final decodedJson=jsonDecode(response.body);
        return NetworkResponse(
@@ -66,9 +66,9 @@ class NetworkCaller {
     try{
 
       Uri uri = Uri.parse(url);
-      Map<String,String>? headers={
-      "content-type":"application/json",
-        "token": AuthController.accessToken??''
+      final Map<String, String> headers = {
+        "content-type": "application/json",
+        "token": AuthController.accessToken ?? ''
       };
 
       _logRequest(url, body,headers);
@@ -88,7 +88,7 @@ class NetworkCaller {
         if (isFormLogin == false) {
           _onUnauthorize();
         }
-        return NetworkResponse(isSuccess: false, statuscode: response.statusCode, errorMessage: _onUnauthorizeMessage);
+        return NetworkResponse(isSuccess: false, statuscode: response.statusCode, errorMessage: _unAuthorizeMessage);
       }
       else {
         final decodedJson = jsonDecode(response.body);
