@@ -93,7 +93,7 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
   Future<void>_getNewTaskList()async{
     _getNewTaskInProgress=true;
     setState(() { });
-    NetworkResponse response=await NetworkCaller.postRequest(url:Urls.getNewTaskListUrl);
+    NetworkResponse response=await NetworkCaller.getRequest(url:Urls.getNewTaskListUrl);
 
     if(response.isSuccess){
       List<TaskModel>list=[];

@@ -9,6 +9,6 @@ class TaskModel{
     title=jsonData["title"];
     description=jsonData["description"];
     status=jsonData['status'];
-    createDate=jsonData['createdData'];
+    createDate=jsonData['createdDate'];
   }
 }
