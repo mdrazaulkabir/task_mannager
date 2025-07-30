@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_mannager/data/service/network_caller.dart';
+import 'package:task_mannager/ui/widgets/center_circular_Progress_indicator.dart';
 import 'package:task_mannager/ui/widgets/show_snack_bar_massanger.dart';
 import 'package:task_mannager/ui/widgets/task_card.dart';
 
@@ -29,16 +30,22 @@ class _CancledTaskListScreenState extends State<CancledTaskListScreen> {
         padding: EdgeInsets.symmetric(vertical: 16),
         child: Visibility(
           visible: _getCancelTaskInProgress==false,
-          replacement: Center(child: CircularProgressIndicator(),),
+          replacement:const CenterCircularProgressIndicator(),
           child: ListView.builder(itemBuilder: (context,index){
-            return TaskCard(taskType: TaskType.canceled, taskModel: _cancelTaskList[index], onStatusUpdate: () {  },);
+            return TaskCard(
+              taskType: TaskType.canceled,
+              taskModel: _cancelTaskList[index],
+              onStatusUpdate: () {
+                _getCancelTaskList();
+              },
+            );
           }),
         ),
       ),
     );
   }
   Future<void>_getCancelTaskList()async{
-    _getCancelTaskInProgress==true;
+    _getCancelTaskInProgress=true;
     setState(() { });
     NetworkResponse response=await NetworkCaller.postRequest(url: Urls.getCancelTaskListUrl);
     if(response.isSuccess){
@@ -51,5 +58,7 @@ class _CancledTaskListScreenState extends State<CancledTaskListScreen> {
     else {
       ShowSnackBarMessage(context, response.errorMessage!);
     }
+    _getCancelTaskInProgress=false;
+    setState(() { });
   }
 }

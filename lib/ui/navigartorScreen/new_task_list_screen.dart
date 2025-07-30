@@ -105,7 +105,7 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
         }
       }
       _newTaskList=list;
-      print("Check api #############################: ${_newTaskList.length} ");
+      print("Check api #############################:${_newTaskList.length} ");
       print("Check api #############################:${response.body}");
     }
     else{

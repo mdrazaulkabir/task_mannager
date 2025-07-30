@@ -122,7 +122,7 @@ class NetworkCaller {
     debugPrint(
         '""""""""""""""""""""""""Response"""""""""""""""""""\n'
             'url:"""""""""""""""$url\n'
-            'Statuscode:""""""""${response.statusCode}\n'
+            'Status Code:""""""""${response.statusCode}\n'
             'body: """""""""""""${response.body}\n'
             '"""""""""""""""""""""""""""""""""""""""""""""""""""\n'
     );

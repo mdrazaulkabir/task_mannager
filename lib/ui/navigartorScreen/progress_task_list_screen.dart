@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_mannager/ui/widgets/center_circular_Progress_indicator.dart';
 
 import '../../data/model/task_model.dart';
 import '../../data/service/network_caller.dart';
@@ -34,7 +35,7 @@ class _ProgressTaskListScreenState extends State<ProgressTaskListScreen> {
         padding: EdgeInsets.symmetric(vertical: 16),
         child: Visibility(
           visible: _getProgressTaskInprogress==false,
-          replacement: Center(child: CircularProgressIndicator(),),
+          replacement: const CenterCircularProgressIndicator(),
           child: ListView.builder(
               itemCount: _progressTaskList.length,
               itemBuilder: (context,index){
@@ -55,7 +56,7 @@ class _ProgressTaskListScreenState extends State<ProgressTaskListScreen> {
   Future<void>_getProgressTaskList()async{
     _getProgressTaskInprogress=true;
     setState(() { });
-    NetworkResponse response=await NetworkCaller.postRequest(url:Urls.getProgressTaskListUrl);
+    NetworkResponse response=await NetworkCaller.getRequest(url:Urls.getProgressTaskListUrl);
 
     if(response.isSuccess){
       List<TaskModel>list=[];

@@ -117,6 +117,7 @@ class _TaskCardState extends State<TaskCard> {
       return AlertDialog(
         title: Text("change Status"),
         content: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
               title: Text("New"),

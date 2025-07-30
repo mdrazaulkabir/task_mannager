@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_mannager/data/service/network_caller.dart';
+import 'package:task_mannager/ui/widgets/center_circular_Progress_indicator.dart';
 import 'package:task_mannager/ui/widgets/show_snack_bar_massanger.dart';
 
 import '../../data/model/task_model.dart';
@@ -29,11 +30,17 @@ class _CompleteTaskListScreenState extends State<CompleteTaskListScreen> {
         padding: EdgeInsets.symmetric(vertical: 16),
         child: Visibility(
           visible: _getComleteTaskInprogress==false,
-          replacement: Center(child: CircularProgressIndicator(),),
+          replacement: const CenterCircularProgressIndicator(),
           child: ListView.builder(
               itemCount: _completeTaskList.length,
               itemBuilder: (context, index) {
-                return TaskCard(taskType: TaskType.complete,taskModel: _completeTaskList[index], onStatusUpdate: () {  },);
+                return TaskCard(
+                  taskType: TaskType.complete,
+                  taskModel: _completeTaskList[index],
+                  onStatusUpdate: () {
+                    _getCompleteTaskList();
+                  },
+                );
               }),
         ),
       ),
@@ -42,7 +49,7 @@ class _CompleteTaskListScreenState extends State<CompleteTaskListScreen> {
   Future<void>_getCompleteTaskList()async{
     _getComleteTaskInprogress=true;
     setState(() {});
-    NetworkResponse response=await NetworkCaller.postRequest(url: Urls.getCompleteTaskListUrl);
+    NetworkResponse response=await NetworkCaller.getRequest(url: Urls.getCompleteTaskListUrl);
     if(response.isSuccess){
       List<TaskModel>list=[];
       for(Map<String,dynamic>jsonData in response.body!["data"]){
@@ -53,7 +60,7 @@ class _CompleteTaskListScreenState extends State<CompleteTaskListScreen> {
     else{
       ShowSnackBarMessage(context, response.errorMessage!);
     }
-    _getComleteTaskInprogress==false;
+    _getComleteTaskInprogress=false;
     setState(() {});
   }
 }
