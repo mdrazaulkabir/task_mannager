@@ -21,6 +21,9 @@ class _CompleteTaskListScreenState extends State<CompleteTaskListScreen> {
     // TODO: implement initState
     super.initState();
     _getCompleteTaskList();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _getCompleteTaskList();
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -50,6 +53,7 @@ class _CompleteTaskListScreenState extends State<CompleteTaskListScreen> {
     _getComleteTaskInprogress=true;
     setState(() {});
     NetworkResponse response=await NetworkCaller.getRequest(url: Urls.getCompleteTaskListUrl);
+
     if(response.isSuccess){
       List<TaskModel>list=[];
       for(Map<String,dynamic>jsonData in response.body!["data"]){

@@ -20,7 +20,9 @@ class _CancledTaskListScreenState extends State<CancledTaskListScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _getCancelTaskList();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _getCancelTaskList();
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -31,15 +33,17 @@ class _CancledTaskListScreenState extends State<CancledTaskListScreen> {
         child: Visibility(
           visible: _getCancelTaskInProgress==false,
           replacement:const CenterCircularProgressIndicator(),
-          child: ListView.builder(itemBuilder: (context,index){
-            return TaskCard(
-              taskType: TaskType.canceled,
-              taskModel: _cancelTaskList[index],
-              onStatusUpdate: () {
-                _getCancelTaskList();
-              },
-            );
-          }),
+          child: ListView.builder(
+              itemCount: _cancelTaskList.length,
+              itemBuilder: (context, index) {
+                return TaskCard(
+                  taskType: TaskType.canceled,
+                  taskModel: _cancelTaskList[index],
+                  onStatusUpdate: () {
+                    _getCancelTaskList();
+                  },
+                );
+              }),
         ),
       ),
     );
@@ -48,6 +52,7 @@ class _CancledTaskListScreenState extends State<CancledTaskListScreen> {
     _getCancelTaskInProgress=true;
     setState(() { });
     NetworkResponse response=await NetworkCaller.postRequest(url: Urls.getCancelTaskListUrl);
+
     if(response.isSuccess){
       List<TaskModel>list=[];
       for(Map<String,dynamic>jsonData in response.body!['data']){
