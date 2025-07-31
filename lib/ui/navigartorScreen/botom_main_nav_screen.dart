@@ -15,7 +15,7 @@ class BottomMainNavScreen extends StatefulWidget {
 
 class _BotomMainNavScreenState extends State<BottomMainNavScreen> {
  final List<Widget>_screen=[
-    NewTaskListScreen(),ProgressTaskListScreen(),CompleteTaskListScreen(),CancledTaskListScreen(),
+    NewTaskListScreen(),ProgressTaskListScreen(),CompleteTaskListScreen(),CanceledTaskListScreen(),
   ];
   int _selectIndex=0;
   @override

@@ -87,7 +87,7 @@ class TaskManagerApp extends StatelessWidget {
         NewTaskListScreen.name:(context)=>const NewTaskListScreen(),
         CompleteTaskListScreen.name:(context)=>const CompleteTaskListScreen(),
         ProgressTaskListScreen.name:(context)=>const ProgressTaskListScreen(),
-        CancledTaskListScreen.name:(context)=>const CancledTaskListScreen(),
+        CanceledTaskListScreen.name:(context)=>const CanceledTaskListScreen(),
       },
     );
   }

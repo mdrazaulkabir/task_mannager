@@ -6,14 +6,14 @@ import 'package:task_mannager/ui/widgets/task_card.dart';
 
 import '../../data/model/task_model.dart';
 import '../../data/urls.dart';
-class CancledTaskListScreen extends StatefulWidget {
-  const CancledTaskListScreen({super.key});
+class CanceledTaskListScreen extends StatefulWidget {
+  const CanceledTaskListScreen({super.key});
   static const String name='canceledTaskListScreen';
   @override
-  State<CancledTaskListScreen> createState() => _CancledTaskListScreenState();
+  State<CanceledTaskListScreen> createState() => _CanceledTaskListScreenState();
 }
 
-class _CancledTaskListScreenState extends State<CancledTaskListScreen> {
+class _CanceledTaskListScreenState extends State<CanceledTaskListScreen> {
   bool _getCancelTaskInProgress=false;
   List<TaskModel>_cancelTaskList=[];
   @override
@@ -29,7 +29,7 @@ class _CancledTaskListScreenState extends State<CancledTaskListScreen> {
     return Scaffold(
      // appBar: TMAppBar(),
       body: Padding(
-        padding: EdgeInsets.symmetric(vertical: 16),
+        padding: const EdgeInsets.symmetric(vertical: 16),
         child: Visibility(
           visible: _getCancelTaskInProgress==false,
           replacement:const CenterCircularProgressIndicator(),
@@ -51,12 +51,12 @@ class _CancledTaskListScreenState extends State<CancledTaskListScreen> {
   Future<void>_getCancelTaskList()async{
     _getCancelTaskInProgress=true;
     setState(() { });
-    NetworkResponse response=await NetworkCaller.postRequest(url: Urls.getCancelTaskListUrl);
+    NetworkResponse response=await NetworkCaller.getRequest(url: Urls.getCancelTaskListUrl);
 
     if(response.isSuccess){
       List<TaskModel>list=[];
       for(Map<String,dynamic>jsonData in response.body!['data']){
-        list.add(TaskModel.formJson(jsonData));
+        list.add(TaskModel.fromJson(jsonData));
       }
       _cancelTaskList=list;
     }

@@ -4,7 +4,7 @@ class TaskModel{
   late String description;
   late String status;
   late String createDate;
-  TaskModel.formJson(Map<String,dynamic>jsonData){
+  TaskModel.fromJson(Map<String,dynamic>jsonData){
     id=jsonData['_id'];
     title=jsonData["title"];
     description=jsonData["description"];

@@ -99,7 +99,7 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
       List<TaskModel>list=[];
       for(Map<String,dynamic> jsonData in response.body!['data']){
         try{
-          list.add(TaskModel.formJson(jsonData));
+          list.add(TaskModel.fromJson(jsonData));
         }catch(e){
           print("Error parsing model:$e");
         }

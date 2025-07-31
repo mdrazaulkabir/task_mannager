@@ -15,7 +15,7 @@ class ProgressTaskListScreen extends StatefulWidget {
 
 class _ProgressTaskListScreenState extends State<ProgressTaskListScreen> {
 
-  bool _getProgressTaskInprogress=false;
+  bool _getProgressTaskInProgress=false;
   List<TaskModel>_progressTaskList=[];
   @override
   void initState() {
@@ -34,7 +34,7 @@ class _ProgressTaskListScreenState extends State<ProgressTaskListScreen> {
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 16),
         child: Visibility(
-          visible: _getProgressTaskInprogress==false,
+          visible: _getProgressTaskInProgress==false,
           replacement: const CenterCircularProgressIndicator(),
           child: ListView.builder(
               itemCount: _progressTaskList.length,
@@ -54,14 +54,14 @@ class _ProgressTaskListScreenState extends State<ProgressTaskListScreen> {
   }
 
   Future<void>_getProgressTaskList()async{
-    _getProgressTaskInprogress=true;
+    _getProgressTaskInProgress=true;
     setState(() { });
     NetworkResponse response=await NetworkCaller.getRequest(url:Urls.getProgressTaskListUrl);
 
     if(response.isSuccess){
       List<TaskModel>list=[];
       for(Map<String,dynamic> jsonData in response.body!['data']){
-        list.add(TaskModel.formJson(jsonData));
+        list.add(TaskModel.fromJson(jsonData));
       }
       _progressTaskList=list;
     }
@@ -69,7 +69,7 @@ class _ProgressTaskListScreenState extends State<ProgressTaskListScreen> {
       ShowSnackBarMessage(context, response.errorMessage!);
     }
 
-    _getProgressTaskInprogress=false;
+    _getProgressTaskInProgress=false;
     setState(() { });
   }
 

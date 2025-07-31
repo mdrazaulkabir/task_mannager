@@ -14,13 +14,13 @@ class CompleteTaskListScreen extends StatefulWidget {
 }
 
 class _CompleteTaskListScreenState extends State<CompleteTaskListScreen> {
-  bool _getComleteTaskInprogress=false;
+  bool _getCompleteTaskInProgress=false;
   List<TaskModel>_completeTaskList=[];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _getCompleteTaskList();
+    //_getCompleteTaskList();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _getCompleteTaskList();
     });
@@ -30,9 +30,9 @@ class _CompleteTaskListScreenState extends State<CompleteTaskListScreen> {
     return Scaffold(
      // appBar: TMAppBar(),
       body: Padding(
-        padding: EdgeInsets.symmetric(vertical: 16),
+        padding: const EdgeInsets.symmetric(vertical: 16),
         child: Visibility(
-          visible: _getComleteTaskInprogress==false,
+          visible: _getCompleteTaskInProgress==false,
           replacement: const CenterCircularProgressIndicator(),
           child: ListView.builder(
               itemCount: _completeTaskList.length,
@@ -50,21 +50,21 @@ class _CompleteTaskListScreenState extends State<CompleteTaskListScreen> {
     );
   }
   Future<void>_getCompleteTaskList()async{
-    _getComleteTaskInprogress=true;
+    _getCompleteTaskInProgress=true;
     setState(() {});
     NetworkResponse response=await NetworkCaller.getRequest(url: Urls.getCompleteTaskListUrl);
 
     if(response.isSuccess){
       List<TaskModel>list=[];
-      for(Map<String,dynamic>jsonData in response.body!["data"]){
-        list.add(TaskModel.formJson(jsonData));
+      for(Map<String,dynamic>jsonData in response.body!['data']){
+        list.add(TaskModel.fromJson(jsonData));
       }
       _completeTaskList=list;
     }
     else{
       ShowSnackBarMessage(context, response.errorMessage!);
     }
-    _getComleteTaskInprogress=false;
+    _getCompleteTaskInProgress=false;
     setState(() {});
   }
 }
