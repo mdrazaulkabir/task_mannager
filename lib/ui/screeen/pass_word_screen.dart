@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:task_mannager/data/service/network_caller.dart';
 import 'package:task_mannager/ui/screeen/sign_in_screen.dart';
+import 'package:task_mannager/ui/widgets/center_circular_Progress_indicator.dart';
+import 'package:task_mannager/ui/widgets/show_snack_bar_massanger.dart';
 
+import '../../data/urls.dart';
 import '../widgets/defalut_widget_rich_text.dart';
 import '../widgets/screen_background.dart';
 class PassWordScreen extends StatefulWidget {
@@ -16,6 +20,8 @@ class _PassWordScreenState extends State<PassWordScreen> {
   final TextEditingController _passwordTEController=TextEditingController();
   final TextEditingController _confirmPassowordTEController=TextEditingController();
   final GlobalKey<FormState>_formkey=GlobalKey<FormState>();
+  bool passwordInProgress=false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +63,13 @@ class _PassWordScreenState extends State<PassWordScreen> {
                   },
                 ),
                 const SizedBox(height: 20,),
-                ElevatedButton(onPressed:_onTapPasswordButtoon, child:const Icon(Icons.arrow_circle_right_outlined)),
+                Visibility(
+                  visible: passwordInProgress==false,
+                  replacement: const CenterCircularProgressIndicator(),
+                  child: ElevatedButton(
+                      onPressed: _onTapPasswordButtoon,
+                      child: const Icon(Icons.arrow_circle_right_outlined)),
+                ),
                 const SizedBox(height: 20,),
                 const DefalutWidgetRichText(),
               ],
@@ -67,11 +79,36 @@ class _PassWordScreenState extends State<PassWordScreen> {
       )),
     );
   }
-  void _onTapPasswordButtoon(){
-    if(_formkey.currentState!.validate()){
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>const SignInScreen()));
+
+  void _onTapPasswordButtoon() {
+    if (_formkey.currentState!.validate()) {
+      _getTapPasswordApi();
     }
   }
+
+  Future<void>_getTapPasswordApi()async{
+    passwordInProgress=true;
+    setState(() { });
+
+    Map<String,String>requestBody={
+      "password":_passwordTEController.text.trim()
+    };
+    // "email":"email@gmail.com",
+    // "OTP": "190828",
+    // "password":"12212221"
+
+    NetworkResponse response=await NetworkCaller.postRequest(url: Urls.baseUrl,body: requestBody);
+    passwordInProgress=false;
+    setState(() { });
+    if(response.isSuccess){
+      _passwordTEController.clear();
+      ShowSnackBarMessage(context, "Successfully reset your password!");
+    }
+    else{
+      ShowSnackBarMessage(context, response.errorMessage!);
+    }
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose

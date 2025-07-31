@@ -9,12 +9,12 @@ import 'package:task_mannager/ui/screeen/sign_in_screen.dart';
 
 class NetworkResponse {
   final bool isSuccess;
-  final int statuscode;
+  final int statusCode;
   final Map<String, dynamic>? body;
   final String ? errorMessage;
 
   NetworkResponse(
-      {required this.isSuccess, required this.statuscode, this.body, this.errorMessage});
+      {required this.isSuccess, required this.statusCode, this.body, this.errorMessage});
 }
 
 
@@ -39,21 +39,21 @@ class NetworkCaller {
 
      if (response.statusCode == 200) {
        final decodedJson = jsonDecode(response.body);
-       return NetworkResponse(isSuccess: true, statuscode: response.statusCode, body: decodedJson);
+       return NetworkResponse(isSuccess: true, statusCode: response.statusCode, body: decodedJson);
      } else if(response.statusCode==401){
        _onUnauthorize();
        return NetworkResponse(
-           isSuccess: false, statuscode: response.statusCode, errorMessage: _unAuthorizeMessage);
+           isSuccess: false, statusCode: response.statusCode, errorMessage: _unAuthorizeMessage);
      } else {
        final decodedJson=jsonDecode(response.body);
        return NetworkResponse(
-           isSuccess: false, statuscode: response.statusCode, errorMessage: decodedJson['data']?? _errorMessage);
+           isSuccess: false, statusCode: response.statusCode, errorMessage: decodedJson['data']?? _errorMessage);
 
      }
    }
-       catch(e){
+   catch(e){
          return NetworkResponse(
-             isSuccess: false, statuscode: -1, errorMessage: e.toString());
+             isSuccess: false, statusCode: -1, errorMessage: e.toString());
        }
   }
 
@@ -82,25 +82,25 @@ class NetworkCaller {
 
       if (response.statusCode == 200) {
         final decodedJson = jsonDecode(response.body);
-        return NetworkResponse(isSuccess: true, statuscode: response.statusCode, body: decodedJson);
+        return NetworkResponse(isSuccess: true, statusCode: response.statusCode, body: decodedJson);
       }
       else if (response.statusCode == 401) {
         if (isFormLogin == false) {
           _onUnauthorize();
         }
-        return NetworkResponse(isSuccess: false, statuscode: response.statusCode, errorMessage: _unAuthorizeMessage);
+        return NetworkResponse(isSuccess: false, statusCode: response.statusCode, errorMessage: _unAuthorizeMessage);
       }
       else {
         final decodedJson = jsonDecode(response.body);
         return NetworkResponse(
             isSuccess: false,
-            statuscode: response.statusCode,
+            statusCode: response.statusCode,
             errorMessage: decodedJson['data'] ?? _errorMessage);
       }
     }
     catch(e){
       return NetworkResponse(
-          isSuccess: false, statuscode: -1, errorMessage: e.toString());
+          isSuccess: false, statusCode: -1, errorMessage: e.toString());
     }
   }
 
