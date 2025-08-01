@@ -7,6 +7,7 @@ import '../widgets/defalut_widget_rich_text.dart';
 import '../widgets/screen_background.dart';
 class PinVerification extends StatefulWidget {
   const PinVerification({super.key});
+
   static const String name="pinVerification";
 
   @override

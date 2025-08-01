@@ -1,14 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:task_mannager/data/model/verification_data_model.dart';
 import 'package:task_mannager/ui/screeen/pin_verification.dart';
+import 'package:task_mannager/ui/widgets/center_circular_Progress_indicator.dart';
 import 'package:task_mannager/ui/widgets/defalut_widget_rich_text.dart';
 import 'package:task_mannager/ui/widgets/screen_background.dart';
 
 import '../../data/service/network_caller.dart';
 import '../../data/urls.dart';
+import '../widgets/show_snack_bar_massanger.dart';
 class EmailScreen extends StatefulWidget {
   const EmailScreen({super.key});
+
 static const String name='EmailScreen';
   @override
   State<EmailScreen> createState() => _EmailScreenState();
@@ -45,7 +49,12 @@ class _EmailScreenState extends State<EmailScreen> {
                 },
               ),
               const SizedBox(height: 20,),
-              ElevatedButton(onPressed:_onTapPinVerificationButoon, child:const Icon(Icons.arrow_circle_right_outlined)),
+              Visibility(
+                visible: emailInProgress==false,
+                  replacement: const CenterCircularProgressIndicator(),
+                  child: ElevatedButton(
+                      onPressed: _onTapPinVerificationButoon,
+                      child: const Icon(Icons.arrow_circle_right_outlined))),
               const SizedBox(height: 20,),
               const DefalutWidgetRichText(),
             ],
@@ -56,42 +65,53 @@ class _EmailScreenState extends State<EmailScreen> {
   }
   void _onTapPinVerificationButoon(){
     if(_formkey.currentState!.validate()){
-     Navigator.pushNamed(context, PinVerification.name);
-    }
+      _getEmailApiCall();    }
   }
 
 
-  // Future<void>_getEmailApiCall()async{
-  //   emailInProgress=true;
-  //   setState(() { });
-  //
-  //   SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
-  //   NetworkResponse response=await NetworkCaller.getRequest(url:Urls.getNewTaskListUrl);
-  //
-  //   if(response.isSuccess){
-  //     List<TaskModel>list=[];
-  //     for(Map<String,dynamic> jsonData in response.body!['data']){
-  //       try{
-  //         list.add(TaskModel.fromJson(jsonData));
-  //       }catch(e){
-  //         print("Error parsing model:$e");
-  //       }
-  //     }
-  //     _newTaskList=list;
-  //     print("Check api #############################:${_newTaskList.length} ");
-  //     print("Check api #############################:${response.body}");
-  //   }
-  //   else{
-  //     if(mounted){
-  //       ShowSnackBarMessage(context, response.errorMessage!);
-  //     }
-  //   }
-  //
-  //   _getNewTaskInProgress=false;
-  //   if(mounted){
-  //     setState(() { });
-  //   }
-  // }
+  Future<void>_getEmailApiCall()async{
+    emailInProgress=true;
+    setState(() { });
+
+    SharedPreferences sharedPre=await SharedPreferences.getInstance();
+    String? token=sharedPre.getString("token")??'';
+    NetworkResponse response=await NetworkCaller.getRequest(url:Urls.emailUrl(_emailTEController.text.trim()));
+
+
+    if(response.isSuccess){
+      emailInProgress=false;
+     VerificationDataModel verificationDataModel=VerificationDataModel.fromJson(response.body!);
+     String? getStatus=verificationDataModel.status;
+     String? getData=verificationDataModel.data;
+     if(getStatus=='success'){
+       SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
+       sharedPreferences.setString('email', _emailTEController.text.trim());
+
+       if(mounted){
+         ShowSnackBarMessage(context, "$getStatus $getData");
+         _emailTEController.clear();
+         await Navigator.pushNamedAndRemoveUntil(context, PinVerification.name, (route) => false);
+       }
+     }
+     else{
+       if(mounted){
+         emailInProgress=false;
+         ShowSnackBarMessage(context, "$getStatus $getData");
+       }
+     }
+    }
+    else{
+      if(mounted){
+        emailInProgress=false;
+        ShowSnackBarMessage(context, response.errorMessage!);
+      }
+    }
+
+    emailInProgress=false;
+    if(mounted){
+      setState(() { });
+    }
+  }
 
 
   @override

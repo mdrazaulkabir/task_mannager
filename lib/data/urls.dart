@@ -13,6 +13,4 @@ class Urls{
 
   static  String emailUrl(String email)=>"$baseUrl/RecoverVerifyEmail/$email";
 
-
-
 }
