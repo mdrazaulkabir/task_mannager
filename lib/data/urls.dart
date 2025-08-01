@@ -11,5 +11,8 @@ class Urls{
   static String updateTaskStatusUrl(String taskId, String status)=>"$baseUrl/updateTaskStatus/$taskId/$status";
   static const String updateProfileUrl="$baseUrl/ProfileUpdate";
 
+  static  String emailUrl(String email)=>"$baseUrl/RecoverVerifyEmail/$email";
+
+
 
 }
