@@ -63,11 +63,12 @@ class _EmailScreenState extends State<EmailScreen> {
       )),
     );
   }
-  void _onTapPinVerificationButoon(){
-    if(_formkey.currentState!.validate()){
-      _getEmailApiCall();    }
-  }
 
+  void _onTapPinVerificationButoon() {
+    if (_formkey.currentState!.validate()) {
+      _getEmailApiCall();
+    }
+  }
 
   Future<void>_getEmailApiCall()async{
     emailInProgress=true;
@@ -88,8 +89,9 @@ class _EmailScreenState extends State<EmailScreen> {
        sharedPreferences.setString('email', _emailTEController.text.trim());
 
        if(mounted){
-         ShowSnackBarMessage(context, "$getStatus $getData");
          _emailTEController.clear();
+         ShowSnackBarMessage(context, "$getStatus $getData");
+         await Future.delayed(Duration(seconds: 1));
          await Navigator.pushNamedAndRemoveUntil(context, PinVerification.name, (route) => false);
        }
      }
