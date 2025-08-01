@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:task_mannager/data/model/verification_data_model.dart';
 import 'package:task_mannager/data/service/network_caller.dart';
+import 'package:task_mannager/ui/screeen/sign_in_screen.dart';
 import 'package:task_mannager/ui/widgets/center_circular_Progress_indicator.dart';
 import 'package:task_mannager/ui/widgets/show_snack_bar_massanger.dart';
 
@@ -86,31 +89,59 @@ class _PassWordScreenState extends State<PassWordScreen> {
   }
 
   Future<void>_getTapPasswordApi()async{
-    passwordInProgress=true;
-    setState(() { });
-
+    passwordInProgress = true;
+    if (mounted) {
+      setState(() {});
+    }
+    SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
     Map<String,String>requestBody={
-      "password":_passwordTEController.text.trim()
+      "email":sharedPreferences.getString("email")??'',
+      "OTP":sharedPreferences.getString("userOtp")??'',
+      "password":_confirmPassowordTEController.text.trim()
     };
     // "email":"email@gmail.com",
     // "OTP": "190828",
     // "password":"12212221"
 
-    NetworkResponse response=await NetworkCaller.postRequest(url: Urls.baseUrl,body: requestBody);
-    passwordInProgress=false;
-    setState(() { });
+    NetworkResponse response=await NetworkCaller.postRequest(url: Urls.resetUrl,body: requestBody,isFormLogin: false);
+
     if(response.isSuccess){
-      _passwordTEController.clear();
-      ShowSnackBarMessage(context, "Successfully reset your password!");
+      VerificationDataModel verificationDataModel=VerificationDataModel.fromJson(response.body!);
+      String? getStatus=verificationDataModel.status??'';
+      String? getData=verificationDataModel.data?? '';
+      if(getStatus=="success"){
+        passwordInProgress=false;
+        if(mounted){
+          _passwordTEController.clear();
+          _confirmPassowordTEController.clear();
+          ShowSnackBarMessage(context, "$getStatus $getData");
+          ShowSnackBarMessage(context, "Now you can sign in your new password!");
+           await Future.delayed(Duration(seconds: 1));
+           Navigator.pushNamedAndRemoveUntil(context, SignInScreen.name, (route) => false);
+        }
+      }
+      else{
+        if(mounted){
+          passwordInProgress=false;
+          ShowSnackBarMessage(context, "$getStatus $getData");
+        }
+      }
     }
     else{
-      ShowSnackBarMessage(context, response.errorMessage!);
+      if(mounted){
+        passwordInProgress=false;
+        ShowSnackBarMessage(context, response.errorMessage!);
+      }
+    }
+
+    passwordInProgress = false;
+    if (mounted) {
+      setState(() {});
     }
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _passwordTEController.dispose();
     _confirmPassowordTEController.dispose();

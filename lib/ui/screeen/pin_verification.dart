@@ -6,6 +6,7 @@ import 'package:task_mannager/data/model/verification_data_model.dart';
 import 'package:task_mannager/data/service/network_caller.dart';
 import 'package:task_mannager/data/urls.dart';
 import 'package:task_mannager/ui/screeen/pass_word_screen.dart';
+import 'package:task_mannager/ui/widgets/center_circular_Progress_indicator.dart';
 import 'package:task_mannager/ui/widgets/show_snack_bar_massanger.dart';
 import '../widgets/defalut_widget_rich_text.dart';
 import '../widgets/screen_background.dart';
@@ -50,13 +51,18 @@ class _PinVerificationState extends State<PinVerification> {
                   fieldWidth: 40,
                   activeFillColor: Colors.white,
                 ),
-                animationDuration: Duration(milliseconds: 300),
+                animationDuration: const Duration(milliseconds: 300),
                 backgroundColor: Colors.white,
                 //enableActiveFill: true,
                 appContext: context,  //must be give
               ),
               const SizedBox(height: 20,),
-              ElevatedButton(onPressed:_onTapPinVerificationButoon, child:const Text("Verify")),
+              Visibility(
+                visible: pinVerificationInProgress==false,
+                  replacement: const CenterCircularProgressIndicator(),
+                  child: ElevatedButton(
+                      onPressed: _onTapPinVerificationButoon,
+                      child: const Text("Verify"))),
               const SizedBox(height: 20,),
               const DefalutWidgetRichText(),
             ],
@@ -67,7 +73,7 @@ class _PinVerificationState extends State<PinVerification> {
   }
   void _onTapPinVerificationButoon(){
     if(_formKey.currentState!.validate()){
-     // Navigator.pushNamed(context, PassWordScreen.name);
+      pinVerificationApiCall();
     }
   }
   
@@ -119,7 +125,6 @@ class _PinVerificationState extends State<PinVerification> {
   
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _pinOtpTEController.dispose();
   }
