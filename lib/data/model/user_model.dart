@@ -12,8 +12,8 @@ class UserModel{
   UserModel.formJson(Map<String,dynamic>jsonData){
     id= jsonData['_id'];
     email= jsonData['email'];
-    lastName= jsonData['firstName'];
-    firstName= jsonData['lastName'];
+    lastName= jsonData['lastName'];
+    firstName= jsonData['firstName'];
     mobile= jsonData['mobile'];
     photo=jsonData['photo'];
   }

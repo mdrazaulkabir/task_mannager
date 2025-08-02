@@ -11,7 +11,6 @@ class TMAppBar extends StatefulWidget implements PreferredSizeWidget {
   });
 
   @override
-  // TODO: implement preferredSize
   //Size get preferredSize => Size.fromHeight(100);    //this size will be take the appBar
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
 

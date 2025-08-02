@@ -7,16 +7,21 @@ class DefaultTaskCountSummaryCard extends StatelessWidget {
   final int count;
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 19,
-      color: Colors.greenAccent,
-      child: Padding(padding: EdgeInsets.all(12),child:Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("$count",style: Theme.of(context).textTheme.titleLarge,),
-          Text("$title",style: TextStyle(color:Colors.grey,fontSize: 14),)
-        ],
-      ),),
+    return SizedBox(
+      width: 100,
+      child: Center(
+        child: Card(
+          elevation: 4,
+          color: Colors.greenAccent,
+          child: Padding(padding: EdgeInsets.all(12),child:Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("$count",style: Theme.of(context).textTheme.titleLarge,),
+              Text(title,style: TextStyle(color:Colors.grey,fontSize: 14),)
+            ],
+          ),),
+        ),
+      ),
     );
   }
 }

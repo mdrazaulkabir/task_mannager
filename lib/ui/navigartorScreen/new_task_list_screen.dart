@@ -129,6 +129,7 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
     if(response.isSuccess){
      List<TaskStatusCountModel>list=[];
      for(Map<String,dynamic>jsonData in response.body!['data']){
+       print("###### Check ##########$jsonData");
         list.add(TaskStatusCountModel.formJson(jsonData));
      }
      _newTaskStatusCountList=list;

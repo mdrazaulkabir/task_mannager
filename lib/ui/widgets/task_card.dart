@@ -37,18 +37,18 @@ class _TaskCardState extends State<TaskCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Title${widget.taskModel.title}",
+              "Title: ${widget.taskModel.title}",
               style: Theme.of(context).textTheme.titleMedium,
             ),
             Text(
-              "Description${widget.taskModel.description}",
+              "Description: ${widget.taskModel.description}",
               style: TextStyle(color: Colors.grey),
             ),
             const SizedBox(
               height: 5,
             ),
             Text(
-              "Date${widget.taskModel.createDate}",
+              "Date: ${widget.taskModel.createDate}",
               style: Theme.of(context).textTheme.titleSmall,
             ),
             const SizedBox(
