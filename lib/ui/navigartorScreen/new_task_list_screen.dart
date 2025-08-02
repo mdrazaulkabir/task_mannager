@@ -67,7 +67,7 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
                   itemCount: _newTaskList.length,
                   itemBuilder: (context, index) {
                     return TaskCard(
-                      taskType: TaskType.tnew,
+                      taskType: TaskType.tNew,
                       taskModel: _newTaskList[index],
                       onStatusUpdate: () {
                         _getNewTaskList();
@@ -105,8 +105,8 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
         }
       }
       _newTaskList=list;
-      print("Check api #############################:${_newTaskList.length} ");
-      print("Check api #############################:${response.body}");
+      // print("Check api #############################:${_newTaskList.length} ");
+      // print("Check api #############################:${response.body}");
     }
     else{
       if(mounted){

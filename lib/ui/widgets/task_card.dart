@@ -6,7 +6,7 @@ import 'package:task_mannager/ui/widgets/show_snack_bar_massanger.dart';
 
 import '../../data/urls.dart';
 
-enum TaskType { tnew, progress, complete, canceled }
+enum TaskType { tNew, progress, complete, canceled }
 
 class TaskCard extends StatefulWidget {
   const TaskCard({
@@ -89,7 +89,7 @@ class _TaskCardState extends State<TaskCard> {
   }
 
   Color _getTaskChipColor() {
-    if (widget.taskType == TaskType.tnew) {
+    if (widget.taskType == TaskType.tNew) {
       return Colors.blue;
     } else if (widget.taskType == TaskType.progress) {
       return Colors.green;
@@ -101,7 +101,7 @@ class _TaskCardState extends State<TaskCard> {
   }
 
   String _getTypeTaskName(){
-    if (widget.taskType == TaskType.tnew) {
+    if (widget.taskType == TaskType.tNew) {
       return "New";
     } else if (widget.taskType == TaskType.progress) {
       return "Progress";
@@ -121,9 +121,9 @@ class _TaskCardState extends State<TaskCard> {
           children: [
             ListTile(
               title: Text("New"),
-              trailing: _getTaskStatusTrailing(TaskType.tnew),
+              trailing: _getTaskStatusTrailing(TaskType.tNew),
               onTap: (){
-                onTapTaskStatus(TaskType.tnew,'New');
+                onTapTaskStatus(TaskType.tNew,'New');
               },
             ),
             ListTile(
