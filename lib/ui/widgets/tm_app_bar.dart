@@ -12,7 +12,7 @@ class TMAppBar extends StatefulWidget implements PreferredSizeWidget {
 
   @override
   //Size get preferredSize => Size.fromHeight(100);    //this size will be take the appBar
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
   State<TMAppBar> createState() => _TMAppBarState();
@@ -31,13 +31,15 @@ class _TMAppBarState extends State<TMAppBar> {
               backgroundImage: AuthController.userModel?.photo == null ? null :
               MemoryImage(base64Decode(AuthController.userModel!.photo!)),
             ),
-            SizedBox(width: 16,),
-            Column(children: [
-              Text(AuthController.userModel!.fullName,style: Theme.of(context).textTheme.titleMedium,),
-              Text(AuthController.userModel!.email,style: Theme.of(context).textTheme.titleSmall),
-            ],),
-            Spacer(),
-            IconButton(onPressed: _onTapLogoutButton, icon: Icon(Icons.logout))
+            const SizedBox(width: 16,),
+            Expanded(
+              child: Column(children: [
+                Text(AuthController.userModel?.fullName?? 'Guest',style: Theme.of(context).textTheme.titleMedium,),
+                Text(AuthController.userModel?.email?? "",style: Theme.of(context).textTheme.titleSmall),
+              ],),
+            ),
+            const Spacer(),
+            IconButton(onPressed: _onTapLogoutButton, icon: const Icon(Icons.logout))
           ],
         ),
       ),
@@ -48,7 +50,7 @@ class _TMAppBarState extends State<TMAppBar> {
     Navigator.pushNamedAndRemoveUntil(context, SignInScreen.name, (route) => false);
   }
   void _onTabAppBarGestureDetector(){
-    if(ModalRoute.of(context)?.settings.name!=UpdateProfileScreen.name){
+    if(ModalRoute.of(context)!.settings.name!=UpdateProfileScreen.name){
       Navigator.pushNamed(context, UpdateProfileScreen.name);
     }
   }
