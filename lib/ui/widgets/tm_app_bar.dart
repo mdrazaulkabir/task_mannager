@@ -21,6 +21,7 @@ class TMAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _TMAppBarState extends State<TMAppBar> {
   @override
   Widget build(BuildContext context) {
+    final user=AuthController.userModel;
     return AppBar(
       backgroundColor: Colors.greenAccent,
       title: GestureDetector(
@@ -28,14 +29,16 @@ class _TMAppBarState extends State<TMAppBar> {
         child: Row(
           children: [
             CircleAvatar(
-              backgroundImage: AuthController.userModel?.photo == null ? null :
-              MemoryImage(base64Decode(AuthController.userModel!.photo!)),
+              radius: 20,
+              backgroundImage: user?.photo == null ? null :
+              MemoryImage(base64Decode(user!.photo!)),
+              child: (user?.photo==null || user!.photo!.isNotEmpty)? Icon(Icons.person,color: Colors.green,):null
             ),
             const SizedBox(width: 16,),
             Expanded(
               child: Column(children: [
-                Text(AuthController.userModel?.fullName?? 'Guest',style: Theme.of(context).textTheme.titleMedium,),
-                Text(AuthController.userModel?.email?? "",style: Theme.of(context).textTheme.titleSmall),
+                Text(user?.fullName?? 'Guest',style: Theme.of(context).textTheme.titleMedium,),
+                Text(user?.email?? "",style: Theme.of(context).textTheme.titleSmall),
               ],),
             ),
             const Spacer(),

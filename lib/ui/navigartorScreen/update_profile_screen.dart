@@ -90,10 +90,12 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                           child: Text("Photo",style: Theme.of(context).textTheme.titleMedium,),
                         ),
                         const SizedBox(width: 5,),
-                        Text(
-                          _selectedImage == null ? "Select image" : _selectedImage!.name,
-                          maxLines: 1,
-                          style: const TextStyle(overflow: TextOverflow.ellipsis),
+                        Expanded(
+                          child: Text(
+                            _selectedImage == null ? "Select image" : _selectedImage!.name,
+                            maxLines: 1,
+                            style: const TextStyle(overflow: TextOverflow.ellipsis),
+                          ),
                         ),
                       ],
                     ),
@@ -255,6 +257,5 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       setState(() {});
     }
   }
-
 
 }
