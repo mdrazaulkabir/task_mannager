@@ -25,7 +25,10 @@ class TaskCard extends StatefulWidget {
 }
 
 class _TaskCardState extends State<TaskCard> {
+
   bool _updateTaskStatusInProgress=false;
+  bool _deleteTaskInProgress=false;
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -78,10 +81,16 @@ class _TaskCardState extends State<TaskCard> {
                 ),
                 const SizedBox(
                   width: 3,
-                ), IconButton(onPressed: () {
-                  _showDeleteConfirmAlertDialog();
-                }, icon: const Icon(Icons.delete)),
-
+                ),
+                Visibility(
+                  visible: _deleteTaskInProgress==false,
+                  replacement: CenterCircularProgressIndicator(),
+                  child: IconButton(
+                      onPressed: () {
+                        _showDeleteConfirmAlertDialog();
+                      },
+                      icon: const Icon(Icons.delete)),
+                ),
               ],
             )
           ],
@@ -192,19 +201,37 @@ class _TaskCardState extends State<TaskCard> {
   Future<void>_showDeleteConfirmAlertDialog()async{
     showDialog(context: context, builder: (ctx){
       return AlertDialog(
-        title: Text("Delete Task"),
-        content: Text("Are you sure you want to delete this task!"),
+        title: const Text("Delete Task"),
+        content: const Text("Are you sure you want to delete this task!"),
         actions: [
           TextButton(onPressed: (){
             Navigator.pop(context);
-          }, child: Text("Cancel"),),
+          }, child: const Text("Cancel"),),
           TextButton(onPressed: (){
             Navigator.pop(context);
-           // _DeteleTask();
-          }, child: Text("Confirm"),)
+            _DeleteTask();
+          }, child: const Text("Confirm"),)
         ],
       );
     });
+  }
+  Future<void>_DeleteTask()async{
+    _deleteTaskInProgress=true;
+    if(mounted){
+      setState(() {});
+    }
+    NetworkResponse response=await NetworkCaller.getRequest(url: Urls.deleteUrl(widget.taskModel.id));
+    _deleteTaskInProgress=false;
+    if(mounted){
+      setState(() {});
+    }
+    if(response.isSuccess){
+      ShowSnackBarMessage(context, "Task Deleted Successfully!");
+      widget.onStatusUpdate();
+    }
+    else{
+      ShowSnackBarMessage(context, response.errorMessage?? 'Deleted falid!');
+    }
   }
 
 
