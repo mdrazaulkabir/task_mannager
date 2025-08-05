@@ -32,7 +32,7 @@ class _TaskCardState extends State<TaskCard> {
       elevation: 0,
       color: Colors.grey[300],
       child: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -42,7 +42,7 @@ class _TaskCardState extends State<TaskCard> {
             ),
             Text(
               "Description: ${widget.taskModel.description}",
-              style: TextStyle(color: Colors.grey),
+              style: const TextStyle(color: Colors.grey),
             ),
             const SizedBox(
               height: 5,
@@ -59,26 +59,28 @@ class _TaskCardState extends State<TaskCard> {
                 Chip(
                   label: Text(
                     _getTypeTaskName(),
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   backgroundColor: _getTaskChipColor(),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)),
                 ),
-                Spacer(),
+                const Spacer(),
                 Visibility(
-                  visible: _updateTaskStatusInProgress==false,
-                  replacement: CenterCircularProgressIndicator(),
+                  visible: _updateTaskStatusInProgress == false,
+                  replacement: const CenterCircularProgressIndicator(),
                   child: IconButton(
                       onPressed: () {
                         _showEditTaskStatusDialog();
                       },
-                      icon: Icon(Icons.edit)),
+                      icon: const Icon(Icons.edit)),
                 ),
                 const SizedBox(
                   width: 3,
-                ), IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
+                ), IconButton(onPressed: () {
+                  _showDeleteConfirmAlertDialog();
+                }, icon: const Icon(Icons.delete)),
 
               ],
             )
@@ -115,33 +117,33 @@ class _TaskCardState extends State<TaskCard> {
   void _showEditTaskStatusDialog(){
     showDialog(context: context, builder: (ctx){
       return AlertDialog(
-        title: Text("change Status"),
+        title: const Text("Change Status"),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              title: Text("New"),
+              title: const Text("New"),
               trailing: _getTaskStatusTrailing(TaskType.tNew),
               onTap: (){
                 onTapTaskStatus(TaskType.tNew,'New');
               },
             ),
             ListTile(
-              title: Text("In progress"),
+              title: const Text("In progress"),
               trailing: _getTaskStatusTrailing(TaskType.progress),
               onTap: (){
                 onTapTaskStatus(TaskType.progress,'Progress');
               },
             ),
             ListTile(
-              title: Text("Complete"),
+              title: const Text("Complete"),
               trailing: _getTaskStatusTrailing(TaskType.complete),
               onTap: (){
                 onTapTaskStatus(TaskType.complete,'Complete');
               },
             ),
             ListTile(
-              title: Text("Cancel"),
+              title: const Text("Cancel"),
               trailing: _getTaskStatusTrailing(TaskType.canceled),
               onTap: (){
                 onTapTaskStatus(TaskType.canceled,'Canceled');
@@ -155,7 +157,7 @@ class _TaskCardState extends State<TaskCard> {
 
 
   Widget? _getTaskStatusTrailing(TaskType type){
-    return widget.taskType ==type ? Icon(Icons.check):null;
+    return widget.taskType ==type ? const Icon(Icons.check):null;
   }
 
   void onTapTaskStatus(TaskType type,String statusText){
@@ -185,4 +187,26 @@ class _TaskCardState extends State<TaskCard> {
       }
     }
   }
+  
+  
+  Future<void>_showDeleteConfirmAlertDialog()async{
+    showDialog(context: context, builder: (ctx){
+      return AlertDialog(
+        title: Text("Delete Task"),
+        content: Text("Are you sure you want to delete this task!"),
+        actions: [
+          TextButton(onPressed: (){
+            Navigator.pop(context);
+          }, child: Text("Cancel"),),
+          TextButton(onPressed: (){
+            Navigator.pop(context);
+           // _DeteleTask();
+          }, child: Text("Confirm"),)
+        ],
+      );
+    });
+  }
+
+
+  
 }
