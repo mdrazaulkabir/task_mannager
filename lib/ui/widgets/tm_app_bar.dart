@@ -32,7 +32,7 @@ class _TMAppBarState extends State<TMAppBar> {
               radius: 20,
               backgroundImage: user?.photo == null ? null :
               MemoryImage(base64Decode(user!.photo!)),
-              child: (user?.photo==null || user!.photo!.isNotEmpty)? Icon(Icons.person,color: Colors.green,):null
+              child: (user?.photo==null || user!.photo!.isNotEmpty)? const Icon(Icons.person,color: Colors.green,):null
             ),
             const SizedBox(width: 16,),
             Expanded(

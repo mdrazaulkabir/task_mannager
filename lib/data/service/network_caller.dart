@@ -48,7 +48,6 @@ class NetworkCaller {
        final decodedJson=jsonDecode(response.body);
        return NetworkResponse(
            isSuccess: false, statusCode: response.statusCode, errorMessage: decodedJson['data']?? _errorMessage);
-
      }
    }
    catch(e){
@@ -59,10 +58,7 @@ class NetworkCaller {
 
 
 
-
-
-  //static const String _erroMessage="something went wrong";
- static Future<NetworkResponse> postRequest({required String url, Map<String,String>?body, Map<String,String>?headers, bool isFormLogin=false}) async {
+  static Future<NetworkResponse> postRequest({required String url, Map<String,String>?body, Map<String,String>?headers, bool isFormLogin=false}) async {
     try{
 
       Uri uri = Uri.parse(url);

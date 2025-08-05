@@ -21,6 +21,7 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
 
   bool _getNewTaskInProgress=false;
   bool _getTaskStatusCountInProgress=false;
+
   List<TaskModel>_newTaskList=[];
   List<TaskStatusCountModel>_newTaskStatusCountList=[];
 
@@ -92,7 +93,7 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
 
   Future<void>_getNewTaskList()async{
     _getNewTaskInProgress=true;
-    setState(() { });
+    if(mounted) {setState(() { });}
     NetworkResponse response=await NetworkCaller.getRequest(url:Urls.getNewTaskListUrl);
 
     if(response.isSuccess){
