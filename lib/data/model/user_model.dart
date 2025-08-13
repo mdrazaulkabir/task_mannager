@@ -9,6 +9,10 @@ class UserModel{
   String get fullName{
     return '$firstName $lastName';
   }
+UserModel({
+    required this.id,required this.email, required this.lastName, required this.firstName, this.photo
+});
+
   UserModel.formJson(Map<String,dynamic>jsonData){
     id= jsonData['_id'];
     email= jsonData['email'];

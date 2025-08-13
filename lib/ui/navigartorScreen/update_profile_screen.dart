@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:task_mannager/data/model/user_model.dart';
 import 'package:task_mannager/data/service/network_caller.dart';
 import 'package:task_mannager/data/urls.dart';
 import 'package:task_mannager/ui/controller/auth_controller.dart';
@@ -203,6 +204,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   }
 
   Future<void>_updateProfile()async{
+    Uint8List? imageByte;
     updateProfileInProgress=true;
     if(mounted){
       setState(() {});
@@ -216,10 +218,12 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     if(_passwordTEController.text.isNotEmpty){
       requestBody['password']=_passwordTEController.text;
     }
+
     if(_selectedImage!=null){
-      Uint8List imageByte=await _selectedImage!.readAsBytes();
+     imageByte=await _selectedImage!.readAsBytes();
       requestBody['photo']=base64Encode(imageByte);
     }
+    
     NetworkResponse response=await NetworkCaller.postRequest(url: Urls.updateProfileUrl,body: requestBody);
 
     updateProfileInProgress=false;
@@ -227,6 +231,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       setState(() {});
     }
     if(response.isSuccess){
+      UserModel(id: AuthController.userModel!.id,
+          email: _emailTEController.text.trim(),
+          lastName: _lastNameTEController.text.trim(),
+          firstName: _firstNameTEController.text.trim(),
+          photo: imageByte==null? AuthController.userModel?.photo : base64Encode(imageByte));
       _passwordTEController.clear();
       if(mounted){
         ShowSnackBarMessage(context, "Successfully update profile!");
@@ -250,10 +259,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   }
 
   Future<void> _onTapImagePicker() async {
-    final XFile? NowimagePicked =
-        await _imagePicker.pickImage(source: ImageSource.camera);
-    if (NowimagePicked != null) {
-      _selectedImage = NowimagePicked;
+    final XFile? nowImagePicked = await _imagePicker.pickImage(source: ImageSource.camera);
+    if (nowImagePicked != null) {
+      _selectedImage = nowImagePicked;
       setState(() {});
     }
   }
